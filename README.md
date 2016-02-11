@@ -1,25 +1,52 @@
-# Node Catapult - Angular & Sass
+# Space Kitten
 
-A boilerplate starter project that includes Node, Express, Angular and -now- Sass:
+> Pithy project description
 
-* Lightweight - Comprehend everything.
-* Logical - Firm basics for development and production.
-* Swift - Get started immediately.
+## Team
 
-## Getting Started
+  - __Product Owner__: space cat
+  - __Scrum Master__: space cat
+  - __Development Team Members__: space cat, space cat
 
+## Table of Contents
+
+1. [Usage](#Usage)
+1. [Requirements](#requirements)
+1. [Development](#development)
+    1. [Installing Dependencies](#installing-dependencies)
+    1. [Tasks](#tasks)
+1. [Team](#team)
+1. [Contributing](#contributing)
+
+## Usage
+
+> Some usage instructions
+
+## Requirements
+
+- Node 0.10.x
+- Redis 2.6.x
+- Postgresql 9.1.x
+- etc
+- etc
+
+## Development
+
+### Installing Dependencies
+
+From within the root directory:
+
+```sh
+sudo npm install -g bower
+npm install
+bower install
 ```
-$ git clone https://github.com/fmaredia/node-catapult-angular-sass my-project
-$ cd my-project
-$ npm install
-$ bower install
-$ npm start
-```
 
-Now visit [localhost:4000](http://localhost:4000/)
+### Roadmap
 
-### Running the Tests
-There is a basic test framework in your `test/` folder. To run the tests, simply run `npm test`.
+View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
 
-## Credits
-This version of the Node Catapult boilerplate utilizes the Angular version (https://github.com/dyale/node-catapult-angular) of mindeavor's original (https://github.com/mindeavor/node-catapult) and implements mindeavor's Node endpoint for compiling Sass (https://github.com/mindeavor/node-sass-endpoint)
+
+## Contributing
+
+See [CONTRIBUTING.md](https://github.com/unexpected-lion/ourglass/blob/master/contributing.md) for contribution guidelines.
