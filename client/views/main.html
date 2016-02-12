@@ -1,5 +1,12 @@
-<div class='jumbotron'>
-  <h1>{{welcome}}</h1>
-  <a class='btn' ui-sref='about'>{{buttonText}}</a>
+<div>
+  <h1>On main page!</h1>
 </div>
-<div ui-view></div>
+
+<div class="question-previews">
+  <div class="question-preview" ng-repeat="question in questions" ng-model="question">
+    <suf-question-preview info="question"></suf-question-preview>
+  </div>
+
+
+
+</div>
