@@ -2,6 +2,10 @@
 
 /* second changes */
 
+/* THIRD change for squashing */
+
+who added this next line? 
+b0e7d9ab710226496af60696ba4b7339905d64cc
 ### Indentation
 
 When writing any block of code that is logically subordinate to the line immediately before and after it, that block should be indented two spaces more than the surrounding lines

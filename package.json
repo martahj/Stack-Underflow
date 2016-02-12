@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "body-parser": "^1.14.1",
+    "browserify": "^13.0.0",
     "es6-object-assign": "^1.0.1",
     "express": "^4.13.1",
     "node-sass-endpoint": "^0.2.1",
