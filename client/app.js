@@ -40,3 +40,5 @@ angular.module('myApp', [
         });
 
 });
+
+require('./src/directives');
