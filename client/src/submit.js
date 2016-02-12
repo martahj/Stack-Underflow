@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 'use strict'
 
 angular.module('myApp')
