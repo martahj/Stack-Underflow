@@ -39,6 +39,7 @@ angular.module('myApp', [
              controller: 'LogoutCtrl'
         });
 
+
 });
 
-require('./src/directives');
+//require('./src/directives');
