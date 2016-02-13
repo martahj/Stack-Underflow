@@ -8,7 +8,6 @@ angular.module('myApp')
     //This should be called when a question preview is clicked on.
     //For reasons unknown, the question preview is not registering clicks, even on a dummy console log function
     this.goToQuestion = function(question) {
-        // alert('clicked on ', question);
 
         //set question page's question to the clicked question
         this.questionToView = question;

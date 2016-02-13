@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('myApp')
-  .controller('QuestionCtrl', [ '$scope', 'GoToQuestion', 'GetQuestionDetail', 'GetAnswers'
+  .controller('QuestionCtrl', [ '$scope', 'GoToQuestion', 'GetQuestionDetail', 'GetAnswers',
   	                             function( $scope, GoToQuestion, GetQuestionDetail, GetAnswers) {
 
     //This must match the limitations in the database
@@ -28,18 +28,24 @@ angular.module('myApp')
     	//However, I have no idea if this will work
     	var questionForGet = GoToQuestion.grabQuestion();
 
-    	GetQuestionDetail.getQuestionDetail(questionForQet)
+    	//send get request to server for the full question info and for answers
+    	//this could lead to an asynchrony problem if the page tries to render before
+    	  //these requests come back, but hopefully angular will hande it gracefully
+    	GetQuestionDetail.getQuestionDetail(questionForGet)
     	  .then( function(data) {
     	  	$scope.question = data;
     	  	return;
     	  })
     	  .then( function() {
-
+    	  	GetAnswers.getAnswersByQuestion(questionForGet)
     	  })
-
-    	//send get request to server for the full question info and for answers
-    }
-    $scope.init();
+    	  .then (function(data) {
+    	  	$scope.question = data;
+    	  	return;
+    	  });
+    };
+    //Calling init commented out now because calling it without the services written will set $scope.question and $scope.answers to undefined
+    // $scope.init();
 
   }]);
 
