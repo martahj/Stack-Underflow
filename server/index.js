@@ -3,16 +3,18 @@ var Path = require('path');
 var sass = require('node-sass-endpoint');
 var session = require('cookie-session');
 var MP = require('node-makerpass');
-
+var morgan  = require('morgan');
+var Promise = require('bluebird');
 
 var routes = express.Router();
+routes.use(morgan('dev'));
 
 // First set up sessions (independent of MakerPass and OAuth)
 // This will give your middleware & endpoints access to req.session
 //
 
 routes.use(session({
-  name: 'stack-underflow:session',
+  name: '_auth_session',
   secret: process.env.SESSION_SECRET || 'development',
   secure: (!! process.env.SESSION_SECRET),
   signed: true
@@ -54,16 +56,20 @@ routes.get('/auth/makerpass', //what is this?
 // During the OAuth dance, MakerPass will redirect your user to this route,
 // of which passport will mostly handle.
 //
+//////////////////////////This is calling the failureRedirect, i added /# to the failureRedirect
 routes.get('/auth/makerpass/callback',
-  passport.authenticate('makerpass', { failureRedirect: '/login' }),
+  passport.authenticate('makerpass', { successRedirect: '/#/', failureRedirect: '/#/login', 
+  failFlash: true }),
   function(req, res) {
+    console.log("WORKING")
     // Successful authentication, do what you like at this point :)
-    res.redirect('/');
+    // routes.use(express.static(assetFolder));
+    res.redirect('/#/');
   });
 
 //route to your index.html
 var assetFolder = Path.resolve(__dirname, '../client/');
-routes.use(express.static(assetFolder));
+ routes.use(express.static(assetFolder));
 
 // Example endpoint (also tested in test/server/index_test.js)
 routes.get('/api/tags-example', function(req, res) {
@@ -71,6 +77,19 @@ routes.get('/api/tags-example', function(req, res) {
 });
 
 if (process.env.NODE_ENV !== 'test') {
+//I am attempting to redirect to auth/makerpass here if no accessToken
+//routes.use on line 72 is loading the index page before this function
+//comment that out to see this functionality. Getting the index page this 
+//way causes html to load incorrectly.
+  routes.get('/', function(req, res){
+    console.log("TOKEN:::::", req.session.accessToken)
+    if (!req.session.accessToken) {
+      res.redirect('/auth/makerpass')
+    } else {
+      // routes.use(express.static(assetFolder));
+      res.sendFile( assetFolder + '/index.html' )
+    }
+  });
 
   // The Catch-all Route
   // This is for supporting browser history pushstate.
