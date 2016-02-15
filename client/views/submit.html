@@ -1,3 +1,21 @@
 <div>
   On submit page!
+
+  <form>
+    <label>
+      Please give your question a descriptive title:
+      <br>
+      <input type="text" ng-model="qTitle" name="qTitle" ng-maxLength="maxTitleLength" required>
+    </label>
+
+    <br>
+
+    <label>
+      Ask your question:
+      <br>
+      <suf-question-or-answer></suf-question-or-answer>
+    </label>
+
+    <button ng-click="submitQ(qTitle, userInput)">Ask Question</button>
+  </form>
 </div>

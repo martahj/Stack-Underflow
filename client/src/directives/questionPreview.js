@@ -6,7 +6,7 @@ angular.module('myApp')
   	return {
   		restrict: 'E',
   		scope: {
-  			info: "="
+  			question: "=info"
   		},
   		templateUrl: '../views/directiveViews/questionPreview.html'
   	}
