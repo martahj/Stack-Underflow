@@ -1,4 +1,35 @@
-<div>
+
+<div class="questionsAndAnswers">
   On question page!
+
+  <div class="originalQuestion" ng-model="question">
+    <h4>{{question.title}}</h4>
+    <p>{{question.text}}</p>
+    <div>
+      <span>Asked by __{{question.user}} at __{{question.timestamp}}</span>
+    </div>
+  </div>
+
+
+  </div class="answers-bucket">
+
+   <div class="all-answers">
+     <div class="question" ng-repeat="answer in answers" ng-model="answer">
+       <suf-answer info="answer"></suf-answer>
+     </div>
+   </div>
+
+   <br>
+   
+    <form>
+      <label>
+        Your answer:
+        <br>
+        <suf-question-or-answer></suf-question-or-answer>
+      </label>
+      <button ng-click="submitAnswer(userInput)">Submit Answer</button>
+    </form>
+
+  </div>
 </div>
 
