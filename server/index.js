@@ -50,12 +50,12 @@ passport.use(new MakerpassStrategy({
       //If no user is passed in (ie what is happening now), it will call strategy.fail in that same file
       //Otherwise, it will call strategy.success
 
-    /* EXAMPLE CODE STARTS HERE
+    //   EXAMPLE CODE STARTS HERE
     // User.findOrCreate({makerpassId: profile.id}, function(err, user) {
-      // console.log('in findOrCreate cb, err: ', err,' user ', user);
-      // return done(err, user);
+    //   console.log('in findOrCreate cb, err: ', err,' user ', user);
+    //   return done(err, user);
     // });
-    /* EXAMPLE CODE ENDS HERE
+    //   EXAMPLE CODE ENDS HERE
 
     //This done() statement was in the code before.. my guess is we can take it out after implementing our User module
     done();

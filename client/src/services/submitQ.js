@@ -5,7 +5,7 @@ angular.module('myApp')
 
     var Question = function(title, text) {
         return {
-            user: "placeholder",
+            user: "placeholder", //can we get this from a global variable? Need to figure out how to keep track of user
             title: title,
             text: text
         };
@@ -14,8 +14,7 @@ angular.module('myApp')
     this.submitQ= function(title, text) {
         var newQ = new Question(title, text);
 
-        //This will make a post request to the server with our new data.. eventually
-        console.log('Created question object ', newQ);
+        //POST request submitting newQ to database
     };
 
   });

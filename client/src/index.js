@@ -1,3 +1,4 @@
+//This file is currently useless... it will be used for browserify
 'use strict'
 
 require('./login.js');

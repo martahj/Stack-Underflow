@@ -3,8 +3,10 @@
 angular.module('myApp')
   .service('GetQuestionDetail', function($http) {
 
-    this.getQuestionDetail = function(question) {
-        //get request to server for detail on question
+    this.getQuestionDetail = function(questionId) {
+        //GET request to server for detail on question
+
+        //Return {publicQuestionId: __, title: __, user: __, text: ___, timestamp: __}
     };
 
   });
