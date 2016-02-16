@@ -44,13 +44,18 @@ passport.use(new MakerpassStrategy({
     //Makerpass is getting the user data from github successfully (uncomment the console log for 'got profile' to see it)
     //I'm guessing we need to maintain our own database of users registered to use Stack Underflow, and this is
     //what we're supposed to do here - either create a new user or get the info we have stored for that user.
-    //On a success, the function done(err, user) will call the function verified on line 171 of passport-makerpass/node_modules/passport-oauth2/strategy.js
-      //CODE STARTS HERE
+    //The function done(err, user) will call the function verified on line 171 of passport-makerpass/node_modules/passport-oauth2/strategy.js
+    //In that function:
+      //If there is an error, it will call strategy.error in passport/lib/middleware/authenticate.js
+      //If no user is passed in (ie what is happening now), it will call strategy.fail in that same file
+      //Otherwise, it will call strategy.success
+
+    /* EXAMPLE CODE STARTS HERE
     // User.findOrCreate({makerpassId: profile.id}, function(err, user) {
       // console.log('in findOrCreate cb, err: ', err,' user ', user);
       // return done(err, user);
     // });
-      //CODE ENDS HERE
+    /* EXAMPLE CODE ENDS HERE
 
     //This done() statement was in the code before.. my guess is we can take it out after implementing our User module
     done();
