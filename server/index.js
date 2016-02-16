@@ -4,7 +4,6 @@ var sass = require('node-sass-endpoint');
 var session = require('cookie-session');
 var MP = require('node-makerpass');
 
-
 var routes = express.Router();
 
 // First set up sessions (independent of MakerPass and OAuth)
@@ -32,10 +31,29 @@ passport.use(new MakerpassStrategy({
     passReqToCallback: true
   },
   function(req, accessToken, refreshToken, profile, done) {
+    // console.log('got req', req);
     console.log("GOT TOKEN:", accessToken)
-    req.session.accessToken  = accessToken
-    req.session.refreshToken = refreshToken
-    done()
+    // console.log('got refreshToken', refreshToken);
+    // console.log('got profile', profile);
+    // console.log('got done ', done);
+    req.session.accessToken  = accessToken;
+    req.session.refreshToken = refreshToken;
+
+    //The code below is what the READMEs say, word-for-word. However, User does not appear
+    //to be a module. My guess is that this is something we write ourselves.
+    //Makerpass is getting the user data from github successfully (uncomment the console log for 'got profile' to see it)
+    //I'm guessing we need to maintain our own database of users registered to use Stack Underflow, and this is
+    //what we're supposed to do here - either create a new user or get the info we have stored for that user.
+    //On a success, the function done(err, user) will call the function verified on line 171 of passport-makerpass/node_modules/passport-oauth2/strategy.js
+      //CODE STARTS HERE
+    // User.findOrCreate({makerpassId: profile.id}, function(err, user) {
+      // console.log('in findOrCreate cb, err: ', err,' user ', user);
+      // return done(err, user);
+    // });
+      //CODE ENDS HERE
+
+    //This done() statement was in the code before.. my guess is we can take it out after implementing our User module
+    done();
   }
 ));
 
