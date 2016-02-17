@@ -11,6 +11,7 @@ var Promise = require('bluebird');
 var routes = express.Router();
 routes.use(morgan('dev'));
 
+
 // First set up sessions (independent of MakerPass and OAuth)
 // This will give your middleware & endpoints access to req.session
 //
@@ -72,18 +73,19 @@ routes.get('/auth/makerpass', //what is this?
 //
 //////////////////////////This is calling the failureRedirect, i added /# to the failureRedirect
 routes.get('/auth/makerpass/callback',
-  passport.authenticate('makerpass', { successRedirect: '/#/', failureRedirect: '/#/login',
+  passport.authenticate('makerpass', { failureRedirect: '/#/login',
   failFlash: true }),
   function(req, res) {
     console.log("WORKING")
     // Successful authentication, do what you like at this point :)
-    // routes.use(express.static(assetFolder));
+    //routes.use(express.static(assetFolder));
     res.redirect('/#/');
   });
 
 //route to your index.html
 var assetFolder = Path.resolve(__dirname, '../client/');
- routes.use(express.static(assetFolder));
+  //routes.use(express.static(assetFolder));
+
 
 // Example endpoint (also tested in test/server/index_test.js)
 routes.get('/api/tags-example', function(req, res) {
@@ -91,20 +93,19 @@ routes.get('/api/tags-example', function(req, res) {
 });
 
 if (process.env.NODE_ENV !== 'test') {
-//I am attempting to redirect to auth/makerpass here if no accessToken
-//routes.use on line 72 is loading the index page before this function
-//comment that out to see this functionality. Getting the index page this 
-//way causes html to load incorrectly.
-  routes.get('/', function(req, res){
-    console.log("TOKEN:::::", req.session.accessToken)
-    if (!req.session.accessToken) {
-      res.redirect('/auth/makerpass')
-    } else {
-      // routes.use(express.static(assetFolder));
-      res.sendFile( assetFolder + '/index.html' )
-    }
-  });
-
+//The following GET request now works but only if the catch-all 
+//route is commented out as well as routes.use below the assetFolder
+// declaration. It works but I don't think it is correct
+  // routes.get('/', function(req, res){
+  //   if (!req.session.accessToken) {
+  //     res.redirect('/auth/makerpass')
+  //   } else {
+  //     console.log('MPAUTH', MP.authWithSession());
+  //     routes.use(express.static(assetFolder));
+  //     res.sendFile( assetFolder + '/index.html' )
+  //   }
+  // });
+  
   // The Catch-all Route
   // This is for supporting browser history pushstate.
   // NOTE: Make sure this route is always LAST.
