@@ -4,6 +4,8 @@ var sass = require('node-sass-endpoint');
 var session = require('cookie-session');
 var MP = require('node-makerpass');
 
+var db  = require('./db');
+
 var morgan  = require('morgan');
 var Promise = require('bluebird');
 

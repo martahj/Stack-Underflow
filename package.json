@@ -13,6 +13,7 @@
     "cookie-session": "^1.2.0",
     "es6-object-assign": "^1.0.1",
     "express": "^4.13.1",
+    "knex": "^0.10.0",
     "morgan": "^1.6.1",
     "node-makerpass": "^1.0.4",
     "node-sass-endpoint": "^0.2.1",
