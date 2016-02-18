@@ -84,7 +84,7 @@ routes.get('/auth/makerpass/callback',
 
 //route to your index.html
 var assetFolder = Path.resolve(__dirname, '../client/');
-  //routes.use(express.static(assetFolder));
+  routes.use(express.static(assetFolder));
 
 
 // Example endpoint (also tested in test/server/index_test.js)
