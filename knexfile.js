@@ -3,7 +3,7 @@ module.exports = {
   development: {
     client: 'postgresql',
     connection: {
-      database: 'stack'
+      database: 'stackdb_db'
     }
   }
 }
