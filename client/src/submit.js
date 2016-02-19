@@ -18,7 +18,7 @@ angular.module('myApp')
         var data = {title: title, text: text};
         $http.post("/api/questions", data)
         .success(function(data, status) {
-            $scope.question.title = data;
+            console.log("Successfully asked a question", data);
         })
         // possibly want error catching here
     }

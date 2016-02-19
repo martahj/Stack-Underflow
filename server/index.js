@@ -106,7 +106,10 @@ routes.post('/api/questions', function(req, res) {
   // insert into db??!?!?!?!?!?!??!?!?!??1?!?!??!?1??!
   knex('questions').insert({questiontitle: req.body.title, questiontext: req.body.text})
   .then(function(resp) {
-    console.log("it possibly worked?", resp);
+    // query db to get questionid of the question we just asked
+    knex('questions').where({questiontext: req.body.text}).select('questionid')
+    // async, returns object within array
+    .then(function(id) { console.log(id[0].questionid) })
   })
 });
 
