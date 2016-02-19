@@ -9,6 +9,13 @@ var db  = require('./db');
 var morgan  = require('morgan');
 var Promise = require('bluebird');
 
+// need to require knex to use the functions for DB
+var knex = require('knex')({
+  client: 'pg',
+  connection: {
+    database: 'stack'
+  }
+});
 
 var routes = express.Router();
 routes.use(morgan('dev'));
@@ -73,28 +80,34 @@ routes.get('/auth/makerpass', //what is this?
 // During the OAuth dance, MakerPass will redirect your user to this route,
 // of which passport will mostly handle.
 //
-//////////////////////////This is calling the failureRedirect, i added /# to the failureRedirect
-
-///// KK: added the session: false after seeing this stackoverflow answer: http://stackoverflow.com/questions/19948816/error-failed-to-serialize-user-into-session
-  // also remembered the Makerpass Readme that said to not use passport.session(); however, it did say to possibly use a separate session library, so we might need to look into that, but for now, it definitely seems like it's working. Tried adding different pages to the sucessRedirect, and it worked. 
 routes.get('/auth/makerpass/callback',
   passport.authenticate('makerpass', { failureRedirect: '/#/login',
   failFlash: true }),
   function(req, res) {
     console.log("WORKING")
     // Successful authentication, do what you like at this point :)
-    //routes.use(express.static(assetFolder));
+    routes.use(express.static(assetFolder));
     res.redirect('/#/');
   });
 
 //route to your index.html
 var assetFolder = Path.resolve(__dirname, '../client/');
-  //routes.use(express.static(assetFolder));
+  routes.use(express.static(assetFolder));
 
 
-// Example endpoint (also tested in test/server/index_test.js)
+// Route endpoints to listen for frontend requests
 routes.get('/api/tags-example', function(req, res) {
   res.send(['node', 'express', 'angular'])
+});
+
+// Listen for post question req, send question information to the database, redirect to that question page
+routes.post('/api/questions', function(req, res) {
+  console.log("In post in index.js", req.body.title);
+  // insert into db??!?!?!?!?!?!??!?!?!??1?!?!??!?1??!
+  knex('questions').insert({questiontitle: req.body.title, questiontext: req.body.text})
+  .then(function(resp) {
+    console.log("it possibly worked?", resp);
+  })
 });
 
 if (process.env.NODE_ENV !== 'test') {
