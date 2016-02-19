@@ -17,7 +17,7 @@ routes.use(morgan('dev'));
 //
 
 routes.use(session({
-  name: '_auth_session',
+  name: 'underflow:session',
   secret: process.env.SESSION_SECRET || 'development',
   secure: (!! process.env.SESSION_SECRET),
   signed: true
@@ -40,8 +40,9 @@ passport.use(new MakerpassStrategy({
     // console.log('got req', req);
     console.log("GOT TOKEN:", accessToken)
     // console.log('got refreshToken', refreshToken);
-    console.log('got profile', profile._raw);
+    console.log('got profile', profile);
     // console.log('got done ', done);
+    // req.localStorage.setItem('session', accessToken);
     req.session.accessToken  = accessToken;
     req.session.refreshToken = refreshToken;
 
@@ -64,27 +65,26 @@ passport.serializeUser(function(_, done) { done(null, 1) })
 //
 // Direct your browser to this route to start the OAuth dance
 //
-routes.get('/auth/makerpass', //what is this? 
+routes.get('/auth/makerpass',
   passport.authenticate('makerpass'));
 
 //
 // During the OAuth dance, MakerPass will redirect your user to this route,
 // of which passport will mostly handle.
 //
-//////////////////////////This is calling the failureRedirect, i added /# to the failureRedirect
+
 routes.get('/auth/makerpass/callback',
   passport.authenticate('makerpass', { failureRedirect: '/#/login',
   failFlash: true }),
   function(req, res) {
     console.log("WORKING")
     // Successful authentication, do what you like at this point :)
-    //routes.use(express.static(assetFolder));
-    res.redirect('/#/');
+    res.redirect('/');
   });
 
 //route to your index.html
 var assetFolder = Path.resolve(__dirname, '../client/');
-  //routes.use(express.static(assetFolder));
+  routes.use(express.static(assetFolder));
 
 
 // Example endpoint (also tested in test/server/index_test.js)
