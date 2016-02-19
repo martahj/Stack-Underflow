@@ -2,7 +2,7 @@
 //This is controller for the question submission page
 //It corresponds to the view submit.html
 angular.module('myApp')
-  .controller('SubmitCtrl', [ '$scope', 'SubmitQuestion', function( $scope, SubmitQuestion ) {
+  .controller('SubmitCtrl', [ '$scope', '$http', function( $scope, $http ) {
     
     //We will need to make sure this matches the limitations in our database
     $scope.maxTitleLength = 100;
@@ -12,8 +12,20 @@ angular.module('myApp')
     $scope.qTitle = undefined;
     $scope.userInput = undefined;
 
-    //Submits the question to the database.. references services/submitQ (THIS NEEDS TO BE WRITTEN)
-    $scope.submitQ = SubmitQuestion.submitQ;
+    // Sending post request to server to then insert into DB
+    // Eventually need user info to include in data object
+    $scope.submitQ = function(title, text) {
+        var data = {title: title, text: text};
+        $http.post("/api/questions", data)
+        .success(function(resp, status) {
+            console.log("Successfully asked a question", resp.questid);
+            $http.get("/api/questions/" + resp.questid)
+            .success(function(resp, status) {
+                console.log('Redirecting...');
+            })
+        })
+        // possibly want error catching here
+    }
 
   }]);
 

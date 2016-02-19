@@ -1,0 +1,12 @@
+LOG:  database system was shut down at 2016-02-18 11:51:51 CST
+LOG:  MultiXact member wraparound protections are now enabled
+LOG:  autovacuum launcher started
+LOG:  database system is ready to accept connections
+FATAL:  lock file "postmaster.pid" already exists
+HINT:  Is another postmaster (PID 9571) running in data directory "/Users/kimberlykost/Documents/MKS30/Stack-Underflow/db"?
+FATAL:  database "kimberlykost" does not exist
+FATAL:  database "stackdb" does not exist
+LOG:  received smart shutdown request
+LOG:  autovacuum launcher shutting down
+LOG:  shutting down
+LOG:  database system is shut down
