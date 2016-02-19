@@ -13,7 +13,7 @@ var Promise = require('bluebird');
 var knex = require('knex')({
   client: 'pg',
   connection: {
-    database: 'stack'
+    database: 'stackdb_db'
   }
 });
 
