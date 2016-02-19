@@ -100,17 +100,31 @@ routes.get('/api/tags-example', function(req, res) {
   res.send(['node', 'express', 'angular'])
 });
 
+routes.get('/api/questions/*', function(req, res) {
+  console.log('Where are we?', req);
+});
+
 // Listen for post question req, send question information to the database, redirect to that question page
 routes.post('/api/questions', function(req, res) {
   console.log("In post in index.js", req.body.title);
-  // insert into db??!?!?!?!?!?!??!?!?!??1?!?!??!?1??!
   knex('questions').insert({questiontitle: req.body.title, questiontext: req.body.text})
   .then(function(resp) {
     // query db to get questionid of the question we just asked
     knex('questions').where({questiontext: req.body.text}).select('questionid')
     // async, returns object within array
-    .then(function(id) { console.log(id[0].questionid) })
+    .then(function(id) { var quest = id[0].questionid; return quest; })
+    .then(function(questid) {
+      console.log("we are getting questid ", questid);
+      // routes.get('/api/questions/' + questid, function(req, res) {
+      //   console.log('we are in questionid getting');
+      res.send({questid: questid});
+      // })
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
   })
+
 });
 
 if (process.env.NODE_ENV !== 'test') {

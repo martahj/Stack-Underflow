@@ -17,8 +17,12 @@ angular.module('myApp')
     $scope.submitQ = function(title, text) {
         var data = {title: title, text: text};
         $http.post("/api/questions", data)
-        .success(function(data, status) {
-            console.log("Successfully asked a question", data);
+        .success(function(resp, status) {
+            console.log("Successfully asked a question", resp.questid);
+            $http.get("/api/questions/" + resp.questid)
+            .success(function(resp, status) {
+                console.log('Redirecting...');
+            })
         })
         // possibly want error catching here
     }
