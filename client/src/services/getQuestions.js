@@ -3,8 +3,8 @@
 angular.module('myApp')
   .service('GetQuestions', function($http) {
 
-    var getQuestions = function() {
-        console.log("in getQuestions")
+    this.getQuestions = function() {
+
     	return $http({
     		method: 'GET',
     		url: '/api/questions'
@@ -19,11 +19,17 @@ angular.module('myApp')
         //This should be made compatable with the infinite scroll function
 
         // KK: Do we want to create a possibly randomized publicQuestionID for each question?
+          //MJ: We'll need some way of identifying each one so we know which one was clicked on, besides the primary key.
+            //Creating a randomized public id makes sense for this. I don't see a need to make a new random key every time
+            //we send the questions through the server, though
+
         // KK: Need to create a preview of each question
     };
-    return {
-    	getQuestions: getQuestions
-    };
+
+    //MJ: With services (unlike factories), we don't have to return anything (like below) because they assume psuedoclassical instantiation
+    // return {
+    // 	getQuestions: getQuestions
+    // };
 
   });
 
