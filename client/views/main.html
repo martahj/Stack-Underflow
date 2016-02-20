@@ -3,7 +3,9 @@
 </div>
 
 <div class="question-previews" infinite-scroll="loadMore()" infinite-scroll-distance="0">
-  <div class="question-preview" ng-repeat="question in questions" ng-model="question">
+  <div class="question-preview" ng-repeat="question in allQuestions.questions" ng-model="question">
+  	<h3>{{ question.questiontitle }}</h3>
+  	<h4>{{ question.questiontext }}</h4>
     <suf-question-preview info="question"></suf-question-preview>
   </div>
 

@@ -34,7 +34,7 @@ angular.module('myApp', ['ui.router', 'infinite-scroll'])
         .state('logout', {
              url: '/logout',
              templateUrl: 'views/logout.html',
-             controller: 'LogoutCtrl'
+             controller: 'LogoutCtrl',
         });
 
 

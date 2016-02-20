@@ -14,14 +14,13 @@ angular.module('myApp')
 
     //TO SEE QUESTION AND PREVIOUS ANSWERS:
     //This is an object representing the question the user clicked on. It gets a value when the init function is run.
-  	$scope.question = undefined
+  	$scope.question = undefined;
     //This will by an array of all answer objects corresponding to $scope.question. It is populated when the init function is run.
   	$scope.answers = undefined;
     //These will each be formatted based on directives/answer.js
 
     //Function for submitting answer to database. References services.submitAnswer (which needs to be written)
     $scope.submitAnswer = SubmitAnswer.submitA;
-
 
     //INIT FUNCTION
     //The init function updates the page based on which question the user clicked on.
@@ -61,7 +60,8 @@ angular.module('myApp')
     }
 
     //Run the init function
-    $scope.initNoServer();
+    // $scope.initNoServer();
+    $scope.init();
 
   }]);
 
