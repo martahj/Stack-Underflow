@@ -37,6 +37,7 @@ angular.module('myApp', [
              templateUrl: 'views/question.html',
              controller: 'QuestionCtrl',
              authenticate: true
+             // params: {questionID: ''}
         })
 
         .state('logout', {

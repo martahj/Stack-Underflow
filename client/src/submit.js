@@ -9,8 +9,6 @@ angular.module('myApp')
     $scope.maxTitleLength = 100;
     $scope.maxAnswerLength = 1000;
 
-    $scope.questions = {};
-
     // Sending post request to server to then insert into DB
     // Eventually need user info to include in data object
     $scope.submitQ = function(title, text) {
@@ -30,8 +28,9 @@ angular.module('myApp')
             console.log("Successfully asked a question", resp);
             $http.get('/api/questions/' + resp.questid)
             .success(function(resp, status) {
-                console.log("Redirecting?", resp);
-                $state.go('home');
+                console.log("Redirecting?", resp.singleQuestion[0].questionid);
+                // $state.go('home');
+                $state.go('question', {questionID: resp.singleQuestion[0].questionid});
             })
         })
     }

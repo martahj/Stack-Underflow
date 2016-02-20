@@ -26,19 +26,20 @@ angular.module('myApp')
     //The init function updates the page based on which question the user clicked on.
 
     //This version is a placeholder until we have the server up and running.
-    $scope.initNoServer = function() {
+    // $scope.initNoServer = function() {
 
-      //Set $scope.question to stored question data
-    	$scope.question = GoToQuestion.grabQuestion();
+    //   //Set $scope.question to stored question data
+    // 	$scope.question = GoToQuestion.grabQuestion();
 
-      //Set $scope.answers equal to some placeholder answers
-      $scope.answers = [{user: 'user1', text: 'answer1 text', timestamp: 'timestamp'}, 
-                        {user: 'user2', text: 'answer2 text', timestamp: 'timestamp'}];
+    //   //Set $scope.answers equal to some placeholder answers
+    //   $scope.answers = [{user: 'user1', text: 'answer1 text', timestamp: 'timestamp'}, 
+    //                     {user: 'user2', text: 'answer2 text', timestamp: 'timestamp'}];
 
-    };
+    // };
 
     //This will be the actual init function once we can get data from the server.
     $scope.init = function() {
+      console.log("Params??", $stateParams.question);
 
       //get stored question id
       var questionId = GoToQuestion.grabQuestion();
