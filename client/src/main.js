@@ -38,7 +38,6 @@ angular.module('myApp')
      $scope.getQuests = function() {
       GetQuestions.getQuestions()
         .then(function(questions) {
-          // $scope.allQuestions.push(questions.data.questions);
           $scope.allQuestions = questions.data;
           console.log($scope.allQuestions);
         })
@@ -62,19 +61,19 @@ angular.module('myApp')
      //number of additional questions to load at once
      var numberOfQuestionsToLoad = 3;
  
-     $scope.loadMore = function() {
-       // if ($scope.questions.length < $scope.allQuestions.length) {
-       //   console.log('in loadMore');
-       //   $scope.questions = $scope.allQuestions.slice(0, $scope.questions.length + 3);
-       // }
-     };
- 
- 
-     // $scope.init = function() {
-     //   $scope.questions = $scope.allQuestions.slice(0, originalLoad,  1);
+     // $scope.loadMore = function() {
+     //   if ($scope.questions.length < $scope.allQuestions.questions.length) {
+     //     console.log('in loadMore');
+     //     $scope.questions = $scope.allQuestions.questions.slice(0, $scope.questions.length + 3);
+     //   }
      // };
  
-     // $scope.init();
+    ////// KK: Marta, can you take a look at this? It's conflicting with the way we are getting the data -> I tried to get it to work with the way we have the data but am getting an error saying cannot call .slice on undefined
+     // $scope.init = function() {
+     //   $scope.questions = $scope.allQuestions.questions.slice(0, originalLoad,  1);
+     // };
+ 
      $scope.getQuests();
+     // $scope.init();
   
     }]); 
