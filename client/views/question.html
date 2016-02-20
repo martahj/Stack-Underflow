@@ -3,10 +3,10 @@
   On question page!
 
   <div class="originalQuestion" ng-model="question">
-    <h4>{{question.title}}</h4>
-    <p>{{question.text}}</p>
+    <h4>{{ question.questiontitle }}</h4>
+    <p>{{ question.questiontext }}</p>
     <div>
-      <span>Asked by __{{question.user}} at __{{question.timestamp}}</span>
+      <span>Asked by __{{question.user}} at {{question.questiondate}}</span>
     </div>
   </div>
 

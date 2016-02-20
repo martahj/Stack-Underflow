@@ -16,9 +16,8 @@ angular.module('myApp')
         console.log('in getQuests');
        return GetQuestions.getQuestions()
         .then(function(questions) {
-          console.log("This should be questions", questions.data.questions);
           $scope.allQuestions = questions.data;
-          return;
+          console.log("addingquestions to $scope", $scope.allQuestions)
         })
         .catch(function(err) {
           console.log(err);
@@ -44,6 +43,8 @@ angular.module('myApp')
 
      //Add more questions to $scope.questions as the user scrolls down
      $scope.loadMore = function() {
+      // KK: always getting an error Cannot read property 'length' of undefined => $scope.allQuestions is empty
+      // But, infinite scroll is still working
        if ($scope.questions.length < $scope.allQuestions.questions.length) {
          $scope.questions = $scope.allQuestions.questions.slice(0, $scope.questions.length + 3);
        }
