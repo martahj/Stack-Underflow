@@ -7,6 +7,8 @@ exports.up = function(knex, Promise) {
         knex.schema.createTable('users', function(table) {
             table.increments('userid').primary();
             table.string('username');
+            table.string('avatar_url');
+            table.string('useremail');
             table.string('makerpassuuid');
         }),
 

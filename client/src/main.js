@@ -16,6 +16,7 @@ angular.module('myApp')
         console.log('in getQuests');
        return GetQuestions.getQuestions()
         .then(function(questions) {
+          console.log("This should be questions", questions.data.questions);
           $scope.allQuestions = questions.data;
           return;
         })
