@@ -1,79 +1,65 @@
 'use strict';
 //This is controller for the main page
 //It corresponds to the view main.html
+//The <suf-question-preview> tag in the view refers to the directive questionPreview (suf = stack under flow)
+
 angular.module('myApp')
 .controller('MainCtrl', ['$scope', '$window', 'GetQuestions', function($scope, $window, GetQuestions) {
-    //This is a placeholder for our array of questions. Eventually, we will get these from the server
-    //The view will populate with questions based on the contents of this array
-      //The <suf-question-preview> tag in the view refers to the directive questionPreview (suf = stack under flow)
-    //OUTSTANDING NEED: FUNCTION THAT GETS QUESTIONS FROM THE SERVER, NEWEST FIRST. This is started in services/getQuestions.js
-    //This is all the questions, even those not visible yet; as the user scrolls down the page, more of these are added to $scope.questions
-     // $scope.allQuestions = [
-     //   {title: 'Question 1 Title', preview: 'Question 1 Preview'},
-     //   {title: 'Question 2 Title', preview: 'Question 2 Preview'},
-     //   {title: 'Question 3 Title', preview: 'Question 3 Preview'}, 
-     //   {title: 'Question 4 Title', preview: 'Question 4 Preview'},
-     //   {title: 'Question 5 Title', preview: 'Question 5 Preview'},
-     //   {title: 'Question 6 Title', preview: 'Question 6 Preview'},
-     //   {title: 'Question 7 Title', preview: 'Question 7 Preview'},
-     //   {title: 'Question 8 Title', preview: 'Question 8 Preview'},
-     //   {title: 'Question 9 Title', preview: 'Question 9 Preview'}, 
-     //   {title: 'Question 10 Title', preview: 'Question 10 Preview'},
-     //   {title: 'Question 11 Title', preview: 'Question 11 Preview'},
-     //   {title: 'Question 12 Title', preview: 'Question 12 Preview'},
-     //   {title: 'Question 13 Title', preview: 'Question 13 Preview'},
-     //   {title: 'Question 14 Title', preview: 'Question 14 Preview'},
-     //   {title: 'Question 15 Title', preview: 'Question 15 Preview'}, 
-     //   {title: 'Question 16 Title', preview: 'Question 16 Preview'},
-     //   {title: 'Question 17 Title', preview: 'Question 17 Preview'},
-     //   {title: 'Question 18 Title', preview: 'Question 18 Preview'},
-     //   {title: 'Question 19 Title', preview: 'Question 19 Preview'},
-     //   {title: 'Question 20 Title', preview: 'Question 20 Preview'},
-     //   {title: 'Question 21 Title', preview: 'Question 21 Preview'}, 
-     //   {title: 'Question 22 Title', preview: 'Question 22 Preview'},
-     //   {title: 'Question 23 Title', preview: 'Question 23 Preview'},
-     //   {title: 'Question 24 Title', preview: 'Question 24 Preview'}
-     // ];
+
+    /* TOOLS FOR GETTING QUESTIONS FROM THE SERVER */
+
+    //This object holds all the questions, irrespective of whether they have appeared on the page or not
      $scope.allQuestions = {};
+
+     //This function (called during init) populates $scope.allQuestions with the questions stored in the db
      $scope.getQuests = function() {
-      GetQuestions.getQuestions()
+        console.log('in getQuests');
+       return GetQuestions.getQuestions()
         .then(function(questions) {
           $scope.allQuestions = questions.data;
-          console.log($scope.allQuestions);
+          return;
         })
         .catch(function(err) {
           console.log(err);
         })
-     }
-  	//Once we have the function that gets the questions from server, we can populate our questions by calling:
-  	//$scope.questions = GetQuestions.getQuestions();
-//$scope.allQuestions = GetQuestions.getQuestions();
- 
-     //number of questions to load initially
-     var originalLoad = 10;
- 
-     //These are the questions that will appear
-     //The view will populate with questions based on the contents of this array
-       //The <suf-question-preview> tag in the view refers to the directive questionPreview (suf = stack under flow)
-     //init function gives this its original contents  
-     $scope.questions = {};
- 
-     //number of additional questions to load at once
+     };
+
+     /* END OF TOOLS FOR GETTING QUESTIONS FROM SERVER */
+
+
+
+
+     /* TOOLS FOR INFINITE SCROLL */
+
+     //This array holds the questions that have loaded on the page
+     $scope.questions = [];
+     
+     //Number of questions to load initially
+     //If this is doesn't cover the whole page, infinite scroll won't work
+     var originalLoad = 14;
+
+     //Number of additional questions to load at once
      var numberOfQuestionsToLoad = 3;
+
+     //Add more questions to $scope.questions as the user scrolls down
+     $scope.loadMore = function() {
+       if ($scope.questions.length < $scope.allQuestions.questions.length) {
+         $scope.questions = $scope.allQuestions.questions.slice(0, $scope.questions.length + 3);
+       }
+     };
+
+     /* END OF TOOLS FOR INFINITE SCROLL */
+
+
+
  
-     // $scope.loadMore = function() {
-     //   if ($scope.questions.length < $scope.allQuestions.questions.length) {
-     //     console.log('in loadMore');
-     //     $scope.questions = $scope.allQuestions.questions.slice(0, $scope.questions.length + 3);
-     //   }
-     // };
- 
-    ////// KK: Marta, can you take a look at this? It's conflicting with the way we are getting the data -> I tried to get it to work with the way we have the data but am getting an error saying cannot call .slice on undefined
-     // $scope.init = function() {
-     //   $scope.questions = $scope.allQuestions.questions.slice(0, originalLoad,  1);
-     // };
- 
-     $scope.getQuests();
-     // $scope.init();
+     $scope.init = function() {
+       $scope.getQuests()
+         .then( function() {
+            $scope.questions = $scope.allQuestions.questions.slice(0, originalLoad,  1);
+         }); 
+     };
+
+     $scope.init();
   
     }]); 
