@@ -25,7 +25,7 @@ angular.module('myApp')
         $http.get('/api/questions/' + questID)
         .success(function(resp, status) {
             console.log("Got the quest from grab question", resp.singleQuestion[0].questionid);
-            // $state.go('question');
+            console.log("Here's the question from grab question", resp.singleQuestion[0]);
         })
     }
 

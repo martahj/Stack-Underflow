@@ -2,8 +2,8 @@
 //This is controller for the question page
 //It corresponds to the view question.html
 angular.module('myApp')
-  .controller('QuestionCtrl', [ '$scope', 'GoToQuestion', 'GetQuestionDetail', 'GetAnswers', 'SubmitAnswer',
-  	                             function( $scope, GoToQuestion, GetQuestionDetail, GetAnswers, SubmitAnswer) {
+  .controller('QuestionCtrl', [ '$scope', '$state', 'GoToQuestion', 'GetQuestionDetail', 'GetAnswers', 'SubmitAnswer',
+  	                             function( $scope, $state, GoToQuestion, GetQuestionDetail, GetAnswers, SubmitAnswer) {
     //FOR ANSWERS:
     //This must match the limitations in the database... picked 1000 chars arbitrarily
     $scope.maxAnswerLength = 1000;
@@ -39,10 +39,14 @@ angular.module('myApp')
 
     //This will be the actual init function once we can get data from the server.
     $scope.init = function() {
-      console.log("Params??", $stateParams.question);
+      // get the questionID out of the state params being passed in
+      var questid = $state.params.questionID;
+      console.log("Params??", questid);
 
-      //get stored question id
-      var questionId = GoToQuestion.grabQuestion();
+      // pass in that questionid to go get the full question
+      var questionId = GoToQuestion.grabQuestion(questid);
+      //KK: able to call GoToQuestion.grabQuestion with the questionId of the question just submitted
+      // KK: next steps - populating page based off that question, need to query db?
 
       //refers to services/getQuestionDetail (NEED TO WRITE THIS)
       GetQuestionDetail.getQuestionDetail(questionId)

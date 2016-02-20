@@ -36,8 +36,8 @@ angular.module('myApp', [
              url: '/question',
              templateUrl: 'views/question.html',
              controller: 'QuestionCtrl',
-             authenticate: true
-             // params: {questionID: ''}
+             authenticate: true,
+             params: {questionID: ''}
         })
 
         .state('logout', {
