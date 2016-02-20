@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('myApp')
-  .service('GoToQuestion', function($location) {
+  .service('GoToQuestion', ['$http', '$state', function($http, $state) {
 
     var questionToView = undefined;
     
@@ -18,10 +18,20 @@ angular.module('myApp')
 
     };
 
-    this.grabQuestion = function() {
+    this.grabQuestion = function(questID) {
         //return the stored question
-        return questionToView;
+        console.log("IN GO TO QUESTION", questID);
+        // query database
+        $http.get('/api/questions/' + questID)
+        .success(function(resp, status) {
+            console.log("Got the quest from grab question", resp.singleQuestion[0].questionid);
+            // $state.go('question');
+        })
     }
 
-  });
+    // return {
+    //     grabQuestion: this.grabQuestion
+    // }
+
+  }]);
 
