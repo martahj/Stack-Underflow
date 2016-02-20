@@ -111,7 +111,6 @@ routes.get('/api/questions', function(req, res) {
 });
 
 routes.get('/api/questions/*', function(req, res) {
-  console.log('Where are we?', req);
   console.log('Requestid???', req.params[0]);
   knex('questions').where({questionid: req.params[0]})
   .then(function(singleQuest) {
@@ -126,19 +125,15 @@ routes.get('/api/questions/*', function(req, res) {
 // Listen for post question req, send question information to the database, redirect to that question page
 routes.post('/api/questions', function(req, res) {
   console.log("In post in index.js", req.body.title);
-  knex('questions').insert({questiontitle: req.body.title, questiontext: req.body.text})
+  knex('questions').insert({questiontitle: req.body.title, questiontext: req.body.text, questiondate: req.body.time})
   .then(function(resp) {
-    // query db to get questionid of the question we just asked
-    knex('questions').where({questiontext: req.body.text}).select('questionid')
+    // query db to get questionid of the question we just asked with date
+    knex('questions').where({questiondate: req.body.time}).select('questionid')
     // async, returns object within array
     .then(function(id) { var quest = id[0].questionid; return quest; })
     .then(function(questid) {
       console.log("we are getting questid ", questid);
-      // routes.get('/api/questions/' + questid, function(req, res) {
-      //   console.log('we are in questionid getting');
       res.send({questid: questid});
-      // res.redirect('/#/main');
-      // })
     })
     .catch(function(err) {
       console.log(err);
