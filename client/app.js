@@ -28,7 +28,8 @@ angular.module('myApp', ['ui.router', 'infinite-scroll'])
         .state('question', {
              url: '/question',
              templateUrl: 'views/question.html',
-             controller: 'QuestionCtrl'
+             controller: 'QuestionCtrl',
+             // params: {questionID: ''}
         })
 
         .state('logout', {
