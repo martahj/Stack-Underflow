@@ -46,3 +46,69 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+// END CSS RESET
+
+
+
+
+/* 
+  OVERALL FRAME 
+*/
+
+.app {
+	margin: 30px 20px 0 20px;
+	padding: 10px 10px 10px 10px;
+}
+
+/*
+  END OVERALL FRAME
+*/
+
+
+
+
+/*
+  BASELINE STYLES
+*/
+
+body {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	background-color: #E8E8E8;
+}
+
+.app {
+	background-color: white;
+}
+
+/*
+  END BASELINE STYLES
+*/
+
+
+
+/*
+  NAV BAR
+*/
+
+.nav {
+	font-size: 28px;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:visited{
+	color: black;
+}
+
+.icon {
+	height: 50px;
+	vertical-align: text-top;
+}
+
+/*
+  END NAV BAR
+*/

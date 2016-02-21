@@ -6,13 +6,11 @@
   </head>
   
   <body ng-app="myApp">
-    <div class="jumbotron">
-      STACK UNDERFLOW JUMBOTRON
-    </div>
 
+    <div class="app">
     <div class="nav">
       <span class="navChoice">
-        <a ui-sref="home">Placeholder for logo</a>
+        <a ui-sref="home" class="logo"><img class="icon" src="./views/su-icon.png">stack underflow</a>
       </span>
       <span class="navChoice">
         <a ui-sref="submit">Submit A Question</a>
@@ -27,6 +25,7 @@
       
       <div ui-view></div>
       </div>
+    </div>
     </div>
   </body>
 
