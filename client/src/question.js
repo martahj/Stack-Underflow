@@ -14,7 +14,7 @@ angular.module('myApp')
 
     //TO SEE QUESTION AND PREVIOUS ANSWERS:
     //This is an object representing the question the user clicked on. It gets a value when the init function is run.
-  	$scope.question = {};
+  	$scope.question = undefined;
     //This will by an array of all answer objects corresponding to $scope.question. It is populated when the init function is run.
   	$scope.answers = undefined;
     //These will each be formatted based on directives/answer.js
@@ -51,8 +51,9 @@ angular.module('myApp')
       .then(function(data) {
         return GetAnswers.getAnswersByQuestion(data);
       })
-      .then(function(test) {
-        console.log("Does this have anything in it????", test);
+      .then(function(response) {
+        console.log("Does this have anything in it????", response);
+        return $scope.answers = response.data;
       })
 
       ////// Need to get user from http req
