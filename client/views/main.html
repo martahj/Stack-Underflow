@@ -1,11 +1,11 @@
 <div>
   <h1>On main page!</h1>
+  <!-- controlled from src/main.js -->
 </div>
 
 <div class="question-previews" infinite-scroll="loadMore()" infinite-scroll-distance="0">
-<!-- allow user to click on question to view that question/answers -->
   <div class="question-preview" ng-repeat="question in questions" ng-model="question" ng-click="setSelected(question.questionid)">
-	<!-- suf-question-preview formats html -->
+  <!-- User can click individual question to populate page with question/answers, takes id from question object: src/main.js -->
  <suf-question-preview info="question"></suf-question-preview>
   </div>
 </div>

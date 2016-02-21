@@ -1,22 +1,24 @@
 'use strict';
-//This is controller for the main page
-//It corresponds to the view main.html
-//The <suf-question-preview> tag in the view refers to the directive questionPreview (suf = stack under flow)
+// This is controller for the main page
+// It corresponds to the view main.html
+// The <suf-question-preview> tag in the view refers to the directive questionPreview (suf = stack under flow): views/directiveViews/questionPreview.html
 
 angular.module('myApp')
-.controller('MainCtrl', ['$scope', '$window', '$state', '$cookieStore','GetQuestions', function($scope, $window, $state, $cookieStore, GetQuestions) {
+.controller('MainCtrl', ['$scope', '$state', '$cookieStore','GetQuestions', function($scope, $state, $cookieStore, GetQuestions) {
 
-    /* TOOLS FOR GETTING QUESTIONS FROM THE SERVER */
 
-    //This object holds all the questions, irrespective of whether they have appeared on the page or not
+
+    ////////// TOOLS FOR GETTING QUESTIONS FROM THE SERVER //////////
+
+    // Will hold all the questions, irrespective of whether they have appeared on the page or not
      $scope.allQuestions = {};
 
-     //This function (called during init) populates $scope.allQuestions with the questions stored in the db
+     // Populates $scope.allQuestions with the questions stored in the db
      $scope.getQuests = function() {
-      // Send get req to db for all questions
+      // Send get req to service for all questions: src/services/getQuestions
        return GetQuestions.getQuestions()
         .then(function(questions) {
-          // Add data to allQuestions object on scope
+          // Populate object with questions retrieved from db
           $scope.allQuestions = questions.data;
         })
         .catch(function(err) {
@@ -28,15 +30,15 @@ angular.module('myApp')
      $scope.setSelected = function (idSelectedQuestion) {
       $cookieStore.put('qid', idSelectedQuestion);
       // Change to single question page
-      $state.go('question');
+      $state.go('question'); // states described in /views/app.js
+      // /views/question.html
      };
 
-     /* END OF TOOLS FOR GETTING QUESTIONS FROM SERVER */
+     ////////// END OF TOOLS FOR GETTING QUESTIONS FROM SERVER //////////
 
 
 
-
-     /* TOOLS FOR INFINITE SCROLL */
+     ////////// TOOLS FOR INFINITE SCROLL //////////
 
      //This array holds the questions that have loaded on the page
      $scope.questions = [];
@@ -57,8 +59,7 @@ angular.module('myApp')
        }
      };
 
-     /* END OF TOOLS FOR INFINITE SCROLL */
-
+     ////////// END OF TOOLS FOR INFINITE SCROLL //////////
 
 
  
@@ -69,6 +70,7 @@ angular.module('myApp')
          }); 
      };
 
+     // Initializes page with questions every time main.js is hit
      $scope.init();
   
     }]); 

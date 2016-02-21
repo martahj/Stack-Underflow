@@ -1,8 +1,8 @@
 'use strict'
 //This is controller for the question submission page
-//It corresponds to the view submit.html
+//It corresponds to the view submit.html: /views/submit.html
 angular.module('myApp')
-  .controller('SubmitCtrl', [ '$scope', '$http', '$state', '$cookieStore', 'GoToQuestion',  function( $scope, $http, $state, $cookieStore, GoToQuestion ) {
+  .controller('SubmitCtrl', [ '$scope', '$http', '$state', '$cookieStore',  function( $scope, $http, $state, $cookieStore ) {
 
     //We will need to make sure this matches the limitations in our database
 
@@ -21,7 +21,6 @@ angular.module('myApp')
             // Cookies act weird on routes, set params instead => Send questid along with get request to DB to get question just asked
             $http.get('/api/questions/' + resp.questid)
             .success(function(resp, status) {
-                console.log("Redirecting with id ", resp.singleQuestion[0].questionid);
                 // Set cookies to questionid for data persist
                 $cookieStore.put('qid', resp.singleQuestion[0].questionid);
                 // Change state to question to view question asked

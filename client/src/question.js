@@ -1,9 +1,9 @@
 'use strict'
-//This is controller for the question page
-//It corresponds to the view question.html
+// This is controller for the question page
+// It corresponds to the view question.html: views/question.html
 angular.module('myApp')
-  .controller('QuestionCtrl', [ '$scope', '$state', '$cookieStore', 'GoToQuestion', 'GetQuestionDetail', 'GetAnswers', 'SubmitAnswer',
-  	                             function( $scope, $state, $cookieStore, GoToQuestion, GetQuestionDetail, GetAnswers, SubmitAnswer) {
+  .controller('QuestionCtrl', [ '$scope', '$cookieStore', 'GoToQuestion', 'GetAnswers', 'SubmitAnswer',
+  	                             function( $scope, $cookieStore, GoToQuestion, GetAnswers, SubmitAnswer) {
     //FOR ANSWERS:
     //This must match the limitations in the database... picked 1000 chars arbitrarily
     // $scope.maxAnswerLength = 1000;
@@ -12,18 +12,20 @@ angular.module('myApp')
 
 
 
-    //TO SEE QUESTION AND PREVIOUS ANSWERS:
-    //This is an object representing the question the user clicked on. It gets a value when the init function is run.
+    // TO SEE QUESTION AND PREVIOUS ANSWERS:
+    // This is an object representing the question the user clicked on. It gets a value when the init function is run.
   	$scope.question = undefined;
     //This will by an array of all answer objects corresponding to $scope.question. It is populated when the init function is run.
   	$scope.answers = undefined;
     //These will each be formatted based on directives/answer.js
 
-    // Submit answers to DB (submitAnswer.js)
+    /////// Submit answers to DB (submitAnswer.js)
     $scope.submitAnswer = function(text) {
+      /* Possibly change $scope.userInput to clear form, depending on Tim's toolbar */
+      $scope.userInput = ' ';
       // Get questionid from cookie
       var cookieid = $cookieStore.get('qid');
-      // Run req to db with form text and cookie id
+      // Send answer text and id to service: /src/services/submitAnswer.js
       SubmitAnswer.submitA(text, cookieid)
       .then(function(data) {
         // Get answers from DB again
@@ -39,15 +41,13 @@ angular.module('myApp')
     $scope.init = function() {
       // Get questionid from cookiestore (data persists)
       var cookieid = $cookieStore.get('qid');
-      console.log("This should be a cookie id", cookieid);
-
-      // Pass questionid from cookie along to query DB for question
+      // Pass questionid from cookie along to service for question: /src/services/goToQuestion.js
       GoToQuestion.grabQuestion(cookieid)
       .then(function(question) {
         // Add question data to question object attached to scope
         return $scope.question = question.data.singleQuestion[0];
       })
-      // Next, query DB for associated answers, pass question along to get id out
+      // Next, query DB for associated answers, pass question along to service to get id out: /src/services/getAnswers.js
       .then(function(data) {
         return GetAnswers.getAnswersByQuestion(data.questionid);
       })
@@ -72,7 +72,7 @@ angular.module('myApp')
       //   });
     }
 
-    //Run the init function every time you hit this page
+    // Run the init function every time you hit this page
     $scope.init();
 
   }]);

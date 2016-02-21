@@ -16,10 +16,7 @@ angular.module('myApp')
         var currentDate = new Date(timestamp);
         // Take data from form, convert to object, send with post req to DB
         var data = {text: text, id: id, time: currentDate};
-        return $http.post('/api/answer', data)
-        .success(function(resp) {
-            console.log("You answered a question");
-        })
+        return $http.post('/api/answer', data);
     };
 
   });

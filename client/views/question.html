@@ -1,6 +1,7 @@
 
 <div class="questionsAndAnswers">
   On question page!
+  <!-- Controlled from src/services/question.js -->
 
   <div class="originalQuestion" ng-model="question">
     <h4>{{ question.questiontitle }}</h4>
@@ -26,9 +27,10 @@
       <label>
         Your answer:
         <br>
+        <!-- suf-question-or-answer (/views/directiveViews/qOrA) is what Tim needs to build -->
         <suf-question-or-answer></suf-question-or-answer>
       </label>
-      <!-- Get input text from form and questionid from question to insert into DB -->
+      <!-- Get input text from form and questionid from question to insert into DB: src/question.js -->
       <button ng-click="submitAnswer(userInput, question.questionid)">Submit Answer</button>
     </form>
 
