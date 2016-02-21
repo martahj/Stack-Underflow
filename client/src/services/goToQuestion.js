@@ -22,16 +22,13 @@ angular.module('myApp')
         //return the stored question
         console.log("IN GO TO QUESTION", questID);
         // query database
-        $http.get('/api/questions/' + questID)
+        return $http.get('/api/questions/' + questID)
         .success(function(resp, status) {
-            console.log("Got the quest from grab question", resp.singleQuestion[0].questionid);
             console.log("Here's the question from grab question", resp.singleQuestion[0]);
+            return resp;
         })
     }
 
-    // return {
-    //     grabQuestion: this.grabQuestion
-    // }
 
   }]);
 

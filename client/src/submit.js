@@ -10,26 +10,20 @@ angular.module('myApp')
     $scope.maxAnswerLength = 1000;
 
     // Sending post request to server to then insert into DB
+        // Once that is successful, redirect to a page with that question populating page
     // Eventually need user info to include in data object
     $scope.submitQ = function(title, text) {
-        var data = {title: title, text: text};
+        // get current date and convert to more legible timestamp
+        var timestamp = (Date.now());
+        var currentDate = new Date(timestamp);
+        console.log("Is this the date?", currentDate);
+        var data = {title: title, text: text, time: currentDate};
         $http.post("/api/questions", data)
-        // .success(function(resp, status) {
-        //     console.log("Successfully asked a question", resp);
-        //     $http.get("/api/questions/" + resp.questid)
-        //     .success(function(resp, status) {
-        //         console.log('Redirecting...', resp.singleQuestion[0]);
-        //         $scope.questions[resp.singleQuestion[0].questionid] = resp.singleQuestion[0];
-        //         console.log("questions", $scope.questions);
-        //     })
-        // })
-        // possibly want error catching here
         .success(function(resp, status) {
-            console.log("Successfully asked a question", resp);
+            console.log("Successfully asked a question");
             $http.get('/api/questions/' + resp.questid)
             .success(function(resp, status) {
-                console.log("Redirecting?", resp.singleQuestion[0].questionid);
-                // $state.go('home');
+                console.log("Redirecting with id ", resp.singleQuestion[0].questionid);
                 $state.go('question', {questionID: resp.singleQuestion[0].questionid});
             })
         })

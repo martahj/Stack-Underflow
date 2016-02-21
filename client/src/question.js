@@ -14,7 +14,7 @@ angular.module('myApp')
 
     //TO SEE QUESTION AND PREVIOUS ANSWERS:
     //This is an object representing the question the user clicked on. It gets a value when the init function is run.
-  	$scope.question = undefined;
+  	$scope.question = {};
     //This will by an array of all answer objects corresponding to $scope.question. It is populated when the init function is run.
   	$scope.answers = undefined;
     //These will each be formatted based on directives/answer.js
@@ -43,25 +43,32 @@ angular.module('myApp')
       var questid = $state.params.questionID;
       console.log("Params??", questid);
 
-      // pass in that questionid to go get the full question
-      var questionId = GoToQuestion.grabQuestion(questid);
-      //KK: able to call GoToQuestion.grabQuestion with the questionId of the question just submitted
-      // KK: next steps - populating page based off that question, need to query db?
+      // use promises to get data from http req
+      GoToQuestion.grabQuestion(questid)
+      .then(function(question) {
+        return $scope.question = question.data.singleQuestion[0];
+      })
+      .then(function(data) {
+        GetAnswers.getAnswersByQuestion(data);
+      })
+
+      ////// Need to get user from http req
+      ////// Also need to get answers from second db query
 
       //refers to services/getQuestionDetail (NEED TO WRITE THIS)
-      GetQuestionDetail.getQuestionDetail(questionId)
-        .then( function(questionData) {
-          $scope.question = questionData;
-          return;
-        })
-        .then( function() {
-          //refers to services/getAnswers (NEED TO WRITE THIS)
-          return GetAnswers.getAnswersByQuestion(questionId)
-        })
-        .then (function(answersArray) {
-          $scope.answers = answersArray;
-          return;
-        });
+      // GetQuestionDetail.getQuestionDetail(questionId)
+      //   .then( function(questionData) {
+      //     $scope.question = questionData;
+      //     return;
+      //   })
+      //   .then( function() {
+      //     //refers to services/getAnswers (NEED TO WRITE THIS)
+      //     return GetAnswers.getAnswersByQuestion(questionId)
+      //   })
+      //   .then (function(answersArray) {
+      //     $scope.answers = answersArray;
+      //     return;
+      //   });
     }
 
     //Run the init function
