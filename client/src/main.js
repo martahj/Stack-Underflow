@@ -4,7 +4,7 @@
 //The <suf-question-preview> tag in the view refers to the directive questionPreview (suf = stack under flow)
 
 angular.module('myApp')
-.controller('MainCtrl', ['$scope', '$window', 'GetQuestions', function($scope, $window, GetQuestions) {
+.controller('MainCtrl', ['$scope', '$window', '$state', 'GetQuestions', function($scope, $window, $state, GetQuestions) {
 
     /* TOOLS FOR GETTING QUESTIONS FROM THE SERVER */
 
@@ -17,11 +17,17 @@ angular.module('myApp')
        return GetQuestions.getQuestions()
         .then(function(questions) {
           $scope.allQuestions = questions.data;
-          return;
+          console.log("addingquestions to $scope", $scope.allQuestions)
         })
         .catch(function(err) {
           console.log(err);
         })
+     };
+
+     $scope.idSelectedQuestion;
+     $scope.setSelected = function (idSelectedQuestion) {
+      $scope.idSelectedQuestion = idSelectedQuestion;
+      $state.go('question', {questionID: $scope.idSelectedQuestion});
      };
 
      /* END OF TOOLS FOR GETTING QUESTIONS FROM SERVER */
@@ -43,6 +49,8 @@ angular.module('myApp')
 
      //Add more questions to $scope.questions as the user scrolls down
      $scope.loadMore = function() {
+      // KK: always getting an error Cannot read property 'length' of undefined => $scope.allQuestions is empty
+      // But, infinite scroll is still working
        if ($scope.questions.length < $scope.allQuestions.questions.length) {
          $scope.questions = $scope.allQuestions.questions.slice(0, $scope.questions.length + 3);
        }
