@@ -114,7 +114,6 @@ routes.get('/api/questions', function(req, res) {
 routes.get('/api/questions/*', function(req, res) {
   knex('questions').where({questionid: req.params[0]})
   .then(function(singleQuest) {
-    console.log("We have gotten a question", singleQuest);
     res.send({singleQuestion: singleQuest});
   })
   .catch(function(err) {
@@ -141,51 +140,23 @@ routes.post('/api/questions', function(req, res) {
   })
 });
 
+routes.post('/api/answer', function(req, res) {
+  console.log("In post answer", req.body);
+  knex('answers').insert({answertext: req.body.text.text, fk_questionid: req.body.id, answerdate: req.body.time})
+  .then(function(resp) {
+    console.log("Should insert answer");
+  })
+});
+
 routes.get('/api/getAnswers/*', function(req, res) {
   console.log("In getAnswers route", req.params[0]);
-  // knex('answers').where({fk_questionid: req.params[0]})
-  // .then(function(answers) {
-  //   console.log("Should be answers", answers);
-  // });
   knex.select('*').from('answers').leftOuterJoin('users', 'answers.fk_answeredbyuserid', 'users.userid')
   .then(function(data) {
-    console.log("How much does this give us?", data);
     res.send(data);
-  });
-
-
-  // knex.select('answers').where({fk_questionid: req.params[0]})
-  // .then(function(data) {
-  //   console.log("Should be answers", data);
-  // })
-  // knex.select('username').from('users')
-  //   .whereIn('userid', function() {
-  //     this.select('fk_answeredbyuserid').from('answers');
-  //   })
-  // .then(function(data) {
-  //   console.log("What even comes back?", data);
-  //   return data
-  // })
-
-  //   knex('users').where({userid: answers[0].fk_answeredbyuserid})
-  //   .then(function(test) {
-  //     console.log("Not sure if this works", test);
-  //     res.send({answers: answers, user: test});
-  //   })
-  // })
-  // knex('answers').where({fk_questionid: req.params[0]})
-  // .then(function(answers) {
-  //   console.log("This should be the answers", answers);
-  //   return answers;
-  //   // return answers;
-  // })
-  // .then(function(answ) {
-  //   console.log("Still have info?", answ);
-  //   res.send(answ);
-  // })
-  // .catch(function(err) {
-  //   console.log("Something went wrong....", err);
-  // })
+  })
+  .catch(function(err) {
+    console.log("Something went wrong", err);
+  })
 })
 
 if (process.env.NODE_ENV !== 'test') {
