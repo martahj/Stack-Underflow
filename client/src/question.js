@@ -49,7 +49,10 @@ angular.module('myApp')
         return $scope.question = question.data.singleQuestion[0];
       })
       .then(function(data) {
-        GetAnswers.getAnswersByQuestion(data);
+        return GetAnswers.getAnswersByQuestion(data);
+      })
+      .then(function(test) {
+        console.log("Does this have anything in it????", test);
       })
 
       ////// Need to get user from http req

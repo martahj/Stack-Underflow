@@ -142,7 +142,20 @@ routes.post('/api/questions', function(req, res) {
 });
 
 routes.get('/api/getAnswers/*', function(req, res) {
-  console.log("In getAnswers route", req);
+  console.log("In getAnswers route", req.params[0]);
+  knex('answers').where({fk_questionid: req.params[0]})
+  .then(function(answers) {
+    console.log("This should be the answers", answers);
+    return answers;
+    // return answers;
+  })
+  .then(function(answ) {
+    console.log("Still have info?", answ);
+    res.send(answ);
+  })
+  .catch(function(err) {
+    console.log("Something went wrong....", err);
+  })
 })
 
 if (process.env.NODE_ENV !== 'test') {
