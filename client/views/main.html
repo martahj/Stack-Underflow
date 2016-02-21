@@ -2,8 +2,10 @@
   <h1>On main page!</h1>
 </div>
 
+<input ng-model="searchQs" placeholder="filter results">
+
 <div class="question-previews" infinite-scroll="loadMore()" infinite-scroll-distance="0">
-  <div class="question-preview" ng-repeat="question in questions" ng-model="question" ng-click="setSelected(question.questionid)">
+  <div class="question-preview" ng-repeat="question in questions | filter:searchQs" ng-model="question" ng-click="setSelected(question.questionid)">
   	<h3>{{ question.questiontitle }}</h3>
   	<h4>{{ question.questiontext }}</h4>
 <!--   	<h5>{{ question.questiondate }}</h5> 

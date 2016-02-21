@@ -26,10 +26,5 @@ angular.module('myApp')
         // KK: Need to create a preview of each question
     };
 
-    //MJ: With services (unlike factories), we don't have to return anything (like below) because they assume psuedoclassical instantiation
-    // return {
-    // 	getQuestions: getQuestions
-    // };
-
   });
 
