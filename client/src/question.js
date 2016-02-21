@@ -14,7 +14,7 @@ angular.module('myApp')
 
     //TO SEE QUESTION AND PREVIOUS ANSWERS:
     //This is an object representing the question the user clicked on. It gets a value when the init function is run.
-  	$scope.question = {};
+  	$scope.question = undefined;
     //This will by an array of all answer objects corresponding to $scope.question. It is populated when the init function is run.
   	$scope.answers = undefined;
     //These will each be formatted based on directives/answer.js
@@ -22,22 +22,6 @@ angular.module('myApp')
     //Function for submitting answer to database. References services.submitAnswer (which needs to be written)
     $scope.submitAnswer = SubmitAnswer.submitA;
 
-    //INIT FUNCTION
-    //The init function updates the page based on which question the user clicked on.
-
-    //This version is a placeholder until we have the server up and running.
-    // $scope.initNoServer = function() {
-
-    //   //Set $scope.question to stored question data
-    // 	$scope.question = GoToQuestion.grabQuestion();
-
-    //   //Set $scope.answers equal to some placeholder answers
-    //   $scope.answers = [{user: 'user1', text: 'answer1 text', timestamp: 'timestamp'}, 
-    //                     {user: 'user2', text: 'answer2 text', timestamp: 'timestamp'}];
-
-    // };
-
-    //This will be the actual init function once we can get data from the server.
     $scope.init = function() {
       // get the questionID out of the state params being passed in
       var questid = $state.params.questionID;
@@ -49,11 +33,11 @@ angular.module('myApp')
         return $scope.question = question.data.singleQuestion[0];
       })
       .then(function(data) {
-        GetAnswers.getAnswersByQuestion(data);
+        return GetAnswers.getAnswersByQuestion(data);
       })
-
-      ////// Need to get user from http req
-      ////// Also need to get answers from second db query
+      .then(function(response) {
+        return $scope.answers = response.data;
+      })
 
       //refers to services/getQuestionDetail (NEED TO WRITE THIS)
       // GetQuestionDetail.getQuestionDetail(questionId)
@@ -72,7 +56,6 @@ angular.module('myApp')
     }
 
     //Run the init function
-    // $scope.initNoServer();
     $scope.init();
 
   }]);

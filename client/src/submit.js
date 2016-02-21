@@ -16,7 +16,6 @@ angular.module('myApp')
         // get current date and convert to more legible timestamp
         var timestamp = (Date.now());
         var currentDate = new Date(timestamp);
-        console.log("Is this the date?", currentDate);
         var data = {title: title, text: text, time: currentDate};
         $http.post("/api/questions", data)
         .success(function(resp, status) {

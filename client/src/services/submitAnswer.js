@@ -10,10 +10,15 @@ angular.module('myApp')
         };
     };
 
-    this.submitA= function(text) {
+    // Prepare data to send to api to insert into DB
+    this.submitA= function(text, id) {
+        // need to get user info, as well
         var newA = new Answer(text);
-
-        //POST request submitting newA to database
+        console.log("Now getting an answer", newA.text);
+        var timestamp = (Date.now());
+        var currentDate = new Date(timestamp);
+        var data = {text: newA, id: id, time: currentDate};
+        $http.post('/api/answer', data);
     };
 
   });

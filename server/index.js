@@ -114,7 +114,6 @@ routes.get('/api/questions', function(req, res) {
 routes.get('/api/questions/*', function(req, res) {
   knex('questions').where({questionid: req.params[0]})
   .then(function(singleQuest) {
-    console.log("We have gotten a question", singleQuest);
     res.send({singleQuestion: singleQuest});
   })
   .catch(function(err) {
@@ -141,8 +140,23 @@ routes.post('/api/questions', function(req, res) {
   })
 });
 
+routes.post('/api/answer', function(req, res) {
+  console.log("In post answer", req.body);
+  knex('answers').insert({answertext: req.body.text.text, fk_questionid: req.body.id, answerdate: req.body.time})
+  .then(function(resp) {
+    console.log("Should insert answer");
+  })
+});
+
 routes.get('/api/getAnswers/*', function(req, res) {
-  console.log("In getAnswers route", req);
+  console.log("In getAnswers route", req.params[0]);
+  knex.select('*').from('answers').leftOuterJoin('users', 'answers.fk_answeredbyuserid', 'users.userid')
+  .then(function(data) {
+    res.send(data);
+  })
+  .catch(function(err) {
+    console.log("Something went wrong", err);
+  })
 })
 
 if (process.env.NODE_ENV !== 'test') {

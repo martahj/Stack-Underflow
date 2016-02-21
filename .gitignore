@@ -6,3 +6,6 @@ stackdb/pg_stat_tmp/db_0.stat
 stackdb/pg_clog/0000
 stackdb/global/pg_control
 stackdb/base/16385/16394
+stackdb/base/16385/16471
+stackdb/base/16385/16465
+stackdb/base/16385/16463

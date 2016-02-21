@@ -5,12 +5,12 @@
     <h4 class="questionTitle">{{ question.questiontitle }}</h4>
     <p>{{ question.questiontext }}</p>
     <div>
-      <span>Asked by __{{question.user}} at {{question.questiondate}}</span>
+      <span>Asked by {{ question.user }} at {{ question.questiondate }}</span>
     </div>
   </div>
 
 
-  </div class="answers-bucket">
+  <div class="answers-bucket">
 
    <div class="all-answers">
      <div class="answer" ng-repeat="answer in answers" ng-model="answer">
@@ -20,13 +20,14 @@
 
    <br>
    
-    <form>
+    <form name="userInput">
       <label>
         Your answer:
         <br>
         <suf-question-or-answer></suf-question-or-answer>
       </label>
-      <button ng-click="submitAnswer(userInput)">Submit Answer</button>
+      <!-- Get input text from form and questionid from question to insert into DB -->
+      <button ng-click="submitAnswer(userInput, question.questionid)">Submit Answer</button>
     </form>
 
   </div>
