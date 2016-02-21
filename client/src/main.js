@@ -27,7 +27,7 @@ angular.module('myApp')
      // $scope.idSelectedQuestion;
      $scope.setSelected = function (idSelectedQuestion) {
       $cookieStore.put('qid', idSelectedQuestion);
-      $state.go('question', {questionID: $scope.idSelectedQuestion});
+      $state.go('question');
      };
 
      /* END OF TOOLS FOR GETTING QUESTIONS FROM SERVER */

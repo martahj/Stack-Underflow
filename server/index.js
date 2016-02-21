@@ -111,9 +111,11 @@ routes.get('/api/questions', function(req, res) {
   })
 });
 
+// Get question from DB
 routes.get('/api/questions/*', function(req, res) {
   knex('questions').where({questionid: req.params[0]})
   .then(function(singleQuest) {
+    // Send back question data to controller
     res.send({singleQuestion: singleQuest});
   })
   .catch(function(err) {
@@ -121,18 +123,19 @@ routes.get('/api/questions/*', function(req, res) {
   })
 });
 
-// Listen for post question req, send question information to the database, redirect to that question page
+// Post a question into DB
 routes.post('/api/questions', function(req, res) {
+  // Get data from req body
   console.log("In post in index.js", req.body.title);
+  // Insert that data into DB
   knex('questions').insert({questiontitle: req.body.title, questiontext: req.body.text, questiondate: req.body.time})
-  .then(function(resp) {
     // query db to get questionid of the question we just asked with date
+  .then(function(resp) {
     knex('questions').where({questiondate: req.body.time}).select('questionid')
-    // async, returns object within array
-    .then(function(id) { var quest = id[0].questionid; return quest; })
+    // After query DB, take data and send back to controller
     .then(function(questid) {
-      console.log("we are getting questid ", questid);
-      res.send({questid: questid});
+      console.log("we are getting questid ", questid[0].questionid);
+      res.send({questid: questid[0].questionid});
     })
     .catch(function(err) {
       console.log(err);
@@ -148,10 +151,16 @@ routes.post('/api/answer', function(req, res) {
   })
 });
 
+// Get answers from DB
 routes.get('/api/getAnswers/*', function(req, res) {
+  // Query DB for answers
   console.log("In getAnswers route", req.params[0]);
-  knex.select('*').from('answers').leftOuterJoin('users', 'answers.fk_answeredbyuserid', 'users.userid')
+  // First do a left outer join to get answers/users that match on userid
+  var subquery = knex.select('*').from('answers').leftOuterJoin('users', 'answers.fk_answeredbyuserid', 'users.userid');
+  // Then, query answers table on condition the questionid in answer matches parameter, and the subquery
+  knex('answers').where({fk_questionid: req.params[0]}, subquery)
   .then(function(data) {
+    // Send data back to service/controller
     res.send(data);
   })
   .catch(function(err) {

@@ -23,22 +23,22 @@ angular.module('myApp')
     $scope.submitAnswer = SubmitAnswer.submitA;
 
     $scope.init = function() {
-      // get the questionID out of the state params being passed in
-      // var questid = $state.params.questionID;
-      // console.log("Params??", questid);
+      // Get questionid from cookiestore (data persists)
       var cookieid = $cookieStore.get('qid');
-      console.log("This should still be a cookie id", cookieid);
+      console.log("This should be a cookie id", cookieid);
 
-
-      // use promises to get data from http req
+      // Pass questionid from cookie along to query DB for question
       GoToQuestion.grabQuestion(cookieid)
       .then(function(question) {
+        // Add question data to question object attached to scope
         return $scope.question = question.data.singleQuestion[0];
       })
+      // Next, query DB for associated answers, pass question along to get id out
       .then(function(data) {
         return GetAnswers.getAnswersByQuestion(data);
       })
       .then(function(response) {
+        // Add answer data to answer object attached to scope
         return $scope.answers = response.data;
       })
 
@@ -58,7 +58,7 @@ angular.module('myApp')
       //   });
     }
 
-    //Run the init function
+    //Run the init function every time you hit this page
     $scope.init();
 
   }]);
