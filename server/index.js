@@ -102,11 +102,13 @@ routes.get('/api/tags-example', function(req, res) {
   res.send(['node', 'express', 'angular'])
 });
 
-// query DB for all questions, return in reverse order (newest first)
+// Get all questions from DB
 routes.get('/api/questions', function(req, res) {
   console.log("getting all questions");
+  // Order in reverse (newest first)
   knex('questions').select().orderBy('questiondate', 'desc')
   .then(function(questions) {
+    // Pass data back to controller (main.js)
     res.send({questions: questions});
   })
 });
@@ -143,11 +145,14 @@ routes.post('/api/questions', function(req, res) {
   })
 });
 
+// Post an answer into DB
 routes.post('/api/answer', function(req, res) {
   console.log("In post answer", req.body);
-  knex('answers').insert({answertext: req.body.text.text, fk_questionid: req.body.id, answerdate: req.body.time})
+  knex('answers').insert({answertext: req.body.text, fk_questionid: req.body.id, answerdate: req.body.time})
   .then(function(resp) {
+    // After query to DB, end response to fufill promise
     console.log("Should insert answer");
+    res.end();
   })
 });
 

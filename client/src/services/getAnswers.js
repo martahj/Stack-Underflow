@@ -8,8 +8,8 @@ angular.module('myApp')
       // Send get req to DB, use params
       return $http({
         method: 'GET',
-        url: '/api/getAnswers/' + question.questionid,
-        params: ({questionID: question.questionid})
+        url: '/api/getAnswers/' + question,
+        params: ({questionID: question})
       })
 
     };

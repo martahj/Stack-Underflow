@@ -19,8 +19,22 @@ angular.module('myApp')
   	$scope.answers = undefined;
     //These will each be formatted based on directives/answer.js
 
-    //Function for submitting answer to database. References services.submitAnswer (which needs to be written)
-    $scope.submitAnswer = SubmitAnswer.submitA;
+    // Submit answers to DB (submitAnswer.js)
+    $scope.submitAnswer = function(text) {
+      // Get questionid from cookie
+      var cookieid = $cookieStore.get('qid');
+      // Run req to db with form text and cookie id
+      SubmitAnswer.submitA(text, cookieid)
+      .then(function(data) {
+        // Get answers from DB again
+        return GetAnswers.getAnswersByQuestion(cookieid);
+      })
+      .then(function(resp) {
+        // Take those answers and repopulate page
+        return $scope.answers = resp.data;
+     })
+    };
+
 
     $scope.init = function() {
       // Get questionid from cookiestore (data persists)
@@ -35,7 +49,7 @@ angular.module('myApp')
       })
       // Next, query DB for associated answers, pass question along to get id out
       .then(function(data) {
-        return GetAnswers.getAnswersByQuestion(data);
+        return GetAnswers.getAnswersByQuestion(data.questionid);
       })
       .then(function(response) {
         // Add answer data to answer object attached to scope

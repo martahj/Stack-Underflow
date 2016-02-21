@@ -13,20 +13,21 @@ angular.module('myApp')
 
      //This function (called during init) populates $scope.allQuestions with the questions stored in the db
      $scope.getQuests = function() {
-        console.log('in getQuests');
+      // Send get req to db for all questions
        return GetQuestions.getQuestions()
         .then(function(questions) {
+          // Add data to allQuestions object on scope
           $scope.allQuestions = questions.data;
-          console.log("addingquestions to $scope", $scope.allQuestions)
         })
         .catch(function(err) {
           console.log(err);
         })
      };
 
-     // $scope.idSelectedQuestion;
+     // Bind id from selected question to cookies
      $scope.setSelected = function (idSelectedQuestion) {
       $cookieStore.put('qid', idSelectedQuestion);
+      // Change to single question page
       $state.go('question');
      };
 

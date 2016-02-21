@@ -10,10 +10,10 @@ angular.module('myApp')
     $scope.maxAnswerLength = 1000;
 
     $scope.submitQ = function(title, text) {
-        // get current date and convert to more legible timestamp
+        // Get current date and convert to more legible timestamp
         var timestamp = (Date.now());
         var currentDate = new Date(timestamp);
-        // take data from form, convert to object, send with post req to db
+        // Take data from form, convert to object, send with post req to db
         var data = {title: title, text: text, time: currentDate};
         $http.post("/api/questions", data)
         .success(function(resp, status) {
