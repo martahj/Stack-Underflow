@@ -5,13 +5,14 @@
 
 angular.module('myApp')
 .controller('MainCtrl', ['$scope', '$state', '$cookieStore','GetQuestions', function($scope, $state, $cookieStore, GetQuestions) {
-
+  
 
 
     ////////// TOOLS FOR GETTING QUESTIONS FROM THE SERVER //////////
 
-    // Will hold all the questions, irrespective of whether they have appeared on the page or not
-     $scope.allQuestions = {};
+
+     // This array holds the questions that have loaded on the page
+     $scope.questions = [];
 
      // Populates $scope.allQuestions with the questions stored in the db
      $scope.getQuests = function() {
@@ -19,7 +20,7 @@ angular.module('myApp')
        return GetQuestions.getQuestions()
         .then(function(questions) {
           // Populate object with questions retrieved from db
-          $scope.allQuestions = questions.data;
+          $scope.questions = questions.data.questions.slice(0, questions.data.questions.length, 1);
         })
         .catch(function(err) {
           console.log(err);
@@ -31,7 +32,6 @@ angular.module('myApp')
       $cookieStore.put('qid', idSelectedQuestion);
       // Change to single question page
       $state.go('question'); // states described in /views/app.js
-      // /views/question.html
      };
 
      ////////// END OF TOOLS FOR GETTING QUESTIONS FROM SERVER //////////
@@ -40,23 +40,19 @@ angular.module('myApp')
 
      ////////// TOOLS FOR INFINITE SCROLL //////////
 
-     //This array holds the questions that have loaded on the page
-     $scope.questions = [];
-     
-     //Number of questions to load initially
-     //If this is doesn't cover the whole page, infinite scroll won't work
-     var originalLoad = 14;
+     // Number of questions to load initially
+     $scope.numberToDisplay = 14;
 
-     //Number of additional questions to load at once
+     // Number of additional questions to load at once
      var numberOfQuestionsToLoad = 3;
 
-     //Add more questions to $scope.questions as the user scrolls down
+     // Add more questions to $scope.questions as the user scrolls down
      $scope.loadMore = function() {
-      // KK: always getting an error Cannot read property 'length' of undefined => $scope.allQuestions is empty
-      // But, infinite scroll is still working
-       if ($scope.questions.length < $scope.allQuestions.questions.length) {
-         $scope.questions = $scope.allQuestions.questions.slice(0, $scope.questions.length + 3);
-       }
+      if ($scope.numberToDisplay + 3 < $scope.questions.length) {
+          $scope.numberToDisplay += 3;
+      } else {
+          $scope.numberToDisplay = $scope.questions.length;
+      }
      };
 
      ////////// END OF TOOLS FOR INFINITE SCROLL //////////
@@ -65,9 +61,6 @@ angular.module('myApp')
  
      $scope.init = function() {
        $scope.getQuests()
-         .then( function() {
-            $scope.questions = $scope.allQuestions.questions.slice(0, originalLoad,  1);
-         }); 
      };
 
      // Initializes page with questions every time main.js is hit

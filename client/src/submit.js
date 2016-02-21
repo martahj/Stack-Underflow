@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 //This is controller for the question submission page
 //It corresponds to the view submit.html: /views/submit.html
 angular.module('myApp')
@@ -30,4 +30,3 @@ angular.module('myApp')
     }
 
   }]);
-
