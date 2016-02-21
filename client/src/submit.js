@@ -2,7 +2,7 @@
 //This is controller for the question submission page
 //It corresponds to the view submit.html
 angular.module('myApp')
-  .controller('SubmitCtrl', [ '$scope', '$http', '$state', 'GoToQuestion',  function( $scope, $http, $state, GoToQuestion ) {
+  .controller('SubmitCtrl', [ '$scope', '$http', '$state', '$cookieStore', 'GoToQuestion',  function( $scope, $http, $state, $cookieStore, GoToQuestion ) {
 
     //We will need to make sure this matches the limitations in our database
 
@@ -23,6 +23,9 @@ angular.module('myApp')
             $http.get('/api/questions/' + resp.questid)
             .success(function(resp, status) {
                 console.log("Redirecting with id ", resp.singleQuestion[0].questionid);
+                $cookieStore.put('qid', resp.singleQuestion[0].questionid);
+                var test2 = $cookieStore.get('qid');
+                console.log("Theoretically an id?", test2);
                 $state.go('question', {questionID: resp.singleQuestion[0].questionid});
             })
         })

@@ -4,7 +4,7 @@
 //The <suf-question-preview> tag in the view refers to the directive questionPreview (suf = stack under flow)
 
 angular.module('myApp')
-.controller('MainCtrl', ['$scope', '$window', '$state', 'GetQuestions', function($scope, $window, $state, GetQuestions) {
+.controller('MainCtrl', ['$scope', '$window', '$state', '$cookieStore','GetQuestions', function($scope, $window, $state, $cookieStore, GetQuestions) {
 
     /* TOOLS FOR GETTING QUESTIONS FROM THE SERVER */
 
@@ -24,9 +24,9 @@ angular.module('myApp')
         })
      };
 
-     $scope.idSelectedQuestion;
+     // $scope.idSelectedQuestion;
      $scope.setSelected = function (idSelectedQuestion) {
-      $scope.idSelectedQuestion = idSelectedQuestion;
+      $cookieStore.put('qid', idSelectedQuestion);
       $state.go('question', {questionID: $scope.idSelectedQuestion});
      };
 
