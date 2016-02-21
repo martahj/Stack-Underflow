@@ -4,7 +4,7 @@
   <!-- Controlled from src/services/question.js -->
 
   <div class="originalQuestion" ng-model="question">
-    <h4>{{ question.questiontitle }}</h4>
+    <h4 class="questionTitle">{{ question.questiontitle }}</h4>
     <p>{{ question.questiontext }}</p>
     <div>
       <span>Asked by {{ question.user }} at {{ question.questiondate }}</span>
@@ -17,6 +17,7 @@
    <div class="all-answers">
    <h3>Answers Here</h3>
      <div class="question" ng-repeat="answer in answers" ng-model="answer">
+     <div class="answer" ng-repeat="answer in answers" ng-model="answer">
        <suf-answer info="answer"></suf-answer>
      </div>
    </div>

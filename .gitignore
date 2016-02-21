@@ -1,2 +1,11 @@
 node_modules/
 client/lib/
+stackdb/pg_stat_tmp/global.stat
+stackdb/pg_stat_tmp/db_16385.stat
+stackdb/pg_stat_tmp/db_0.stat
+stackdb/pg_clog/0000
+stackdb/global/pg_control
+stackdb/base/16385/16394
+stackdb/base/16385/16471
+stackdb/base/16385/16465
+stackdb/base/16385/16463
