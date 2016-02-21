@@ -45,8 +45,11 @@ angular.module('myApp')
 
       // use promises to get data from http req
       GoToQuestion.grabQuestion(questid)
-      .then(function(test) {
-        $scope.question = test.data.singleQuestion[0];
+      .then(function(question) {
+        return $scope.question = question.data.singleQuestion[0];
+      })
+      .then(function(data) {
+        GetAnswers.getAnswersByQuestion(data);
       })
 
       ////// Need to get user from http req

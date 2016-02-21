@@ -3,14 +3,12 @@
 </div>
 
 <div class="question-previews" infinite-scroll="loadMore()" infinite-scroll-distance="0">
-  <div class="question-preview" ng-repeat="question in questions" ng-model="question">
+  <div class="question-preview" ng-repeat="question in questions" ng-model="question" ng-click="setSelected(question.questionid)">
   	<h3>{{ question.questiontitle }}</h3>
   	<h4>{{ question.questiontext }}</h4>
 <!--   	<h5>{{ question.questiondate }}</h5> 
 if we want to display the timestamp, should convert again (or use a library)
- -->    <suf-question-preview info="question"></suf-question-preview>
+ -->    
+ <!-- <suf-question-preview info="question"></suf-question-preview> -->
   </div>
-
-
-
 </div>

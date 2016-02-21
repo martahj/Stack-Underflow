@@ -139,8 +139,11 @@ routes.post('/api/questions', function(req, res) {
       console.log(err);
     })
   })
-
 });
+
+routes.get('/getAnswers', function(req, res) {
+  console.log("In getAnswers route", req);
+})
 
 if (process.env.NODE_ENV !== 'test') {
 //The following GET request now works but only if the catch-all 
