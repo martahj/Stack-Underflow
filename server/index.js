@@ -97,10 +97,8 @@ var assetFolder = Path.resolve(__dirname, '../client/');
   routes.use(express.static(assetFolder));
 
 
-// Route endpoints to listen for frontend requests
-routes.get('/api/tags-example', function(req, res) {
-  res.send(['node', 'express', 'angular'])
-});
+
+////////// DATABASE ROUTES //////////
 
 // Get all questions from DB
 routes.get('/api/questions', function(req, res) {
@@ -172,6 +170,10 @@ routes.get('/api/getAnswers/*', function(req, res) {
     console.log("Something went wrong", err);
   })
 })
+
+////////// END DATABASE ROUTES //////////
+
+
 
 if (process.env.NODE_ENV !== 'test') {
 //The following GET request now works but only if the catch-all 

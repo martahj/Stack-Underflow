@@ -6,9 +6,9 @@ angular.module('myApp')
   	                             function( $scope, $state, $cookieStore, GoToQuestion, GetQuestionDetail, GetAnswers, SubmitAnswer) {
     //FOR ANSWERS:
     //This must match the limitations in the database... picked 1000 chars arbitrarily
-    $scope.maxAnswerLength = 1000;
-    //This will start out as empty and get filled out as the user writes an answer
-    $scope.userInput = undefined;
+    // $scope.maxAnswerLength = 1000;
+    // //This will start out as empty and get filled out as the user writes an answer
+    // $scope.userInput = undefined;
 
 
 
