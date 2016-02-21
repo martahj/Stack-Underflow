@@ -1,9 +1,8 @@
 
 <div class="questionsAndAnswers">
-  On question page!
 
   <div class="originalQuestion" ng-model="question">
-    <h4>{{ question.questiontitle }}</h4>
+    <h4 class="questionTitle">{{ question.questiontitle }}</h4>
     <p>{{ question.questiontext }}</p>
     <div>
       <span>Asked by __{{question.user}} at {{question.questiondate}}</span>
@@ -14,7 +13,7 @@
   </div class="answers-bucket">
 
    <div class="all-answers">
-     <div class="question" ng-repeat="answer in answers" ng-model="answer">
+     <div class="answer" ng-repeat="answer in answers" ng-model="answer">
        <suf-answer info="answer"></suf-answer>
      </div>
    </div>
