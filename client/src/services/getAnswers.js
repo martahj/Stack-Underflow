@@ -7,8 +7,7 @@ angular.module('myApp')
       console.log("In get Answers", question);
       return $http({
         method: 'GET',
-        url: '/getAnswers',
-        body: question,
+        url: '/api/getAnswers/' + question.questionid,
       })
 //GET request to server for answers to question with questionId
      	// return $http({

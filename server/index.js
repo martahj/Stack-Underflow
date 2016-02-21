@@ -141,7 +141,7 @@ routes.post('/api/questions', function(req, res) {
   })
 });
 
-routes.get('/getAnswers', function(req, res) {
+routes.get('/api/getAnswers/*', function(req, res) {
   console.log("In getAnswers route", req);
 })
 
