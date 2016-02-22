@@ -18,7 +18,7 @@ var knex = require('knex')({
 });
 
 var routes = express.Router();
-routes.use(morgan('dev'));
+//routes.use(morgan('dev'));
 
 
 // First set up sessions (independent of MakerPass and OAuth)
@@ -74,6 +74,7 @@ passport.serializeUser(function(_, done) { done(null, 1) })
 //
 // Direct your browser to this route to start the OAuth dance
 //
+
 routes.get('/auth/makerpass',
   passport.authenticate('makerpass'));
 
@@ -102,18 +103,32 @@ routes.get('/api/tags-example', function(req, res) {
   res.send(['node', 'express', 'angular'])
 });
 
-// query DB for all questions, return in reverse order (newest first)
 routes.get('/api/questions', function(req, res) {
+    console.log("REQ.seesion", req.session.accessToken)
+    if (!req.session.accessToken) {
+      // throw new Error("NEIN")
+      // console.log('res.redircect', res)
+      // res.redirect('/auth/makerpass')
+      // res.send({redirect: '/auth/makerpass'});
+    }
   console.log("getting all questions");
-  knex('questions').select().orderBy('questiondate', 'desc')
+  knex('questions').select()
   .then(function(questions) {
     res.send({questions: questions});
+  })
+  .catch(function(err) {
+    console.log("Error", err)
+    res.redirect('/auth/makerpass')
   })
 });
 
 routes.get('/api/questions/*', function(req, res) {
+console.log("REQ.seesion", req.session.accessToken)
+  console.log('Where are we?', req);
+  console.log('Requestid???', req.params[0]);
   knex('questions').where({questionid: req.params[0]})
   .then(function(singleQuest) {
+    console.log("We have gotten a question", singleQuest);
     res.send({singleQuestion: singleQuest});
   })
   .catch(function(err) {
@@ -123,55 +138,46 @@ routes.get('/api/questions/*', function(req, res) {
 
 // Listen for post question req, send question information to the database, redirect to that question page
 routes.post('/api/questions', function(req, res) {
+  console.log("REQ.seesion", req.session.accessToken)
+  console.log("REQ.User", req.user)
   console.log("In post in index.js", req.body.title);
-  knex('questions').insert({questiontitle: req.body.title, questiontext: req.body.text, questiondate: req.body.time})
+  knex('questions').insert({questiontitle: req.body.title, questiontext: req.body.text})
   .then(function(resp) {
-    // query db to get questionid of the question we just asked with date
-    knex('questions').where({questiondate: req.body.time}).select('questionid')
+    // query db to get questionid of the question we just asked
+    knex('questions').where({questiontext: req.body.text}).select('questionid')
     // async, returns object within array
     .then(function(id) { var quest = id[0].questionid; return quest; })
     .then(function(questid) {
       console.log("we are getting questid ", questid);
+      // routes.get('/api/questions/' + questid, function(req, res) {
+      //   console.log('we are in questionid getting');
       res.send({questid: questid});
+      // res.redirect('/#/main');
+      // })
     })
     .catch(function(err) {
       console.log(err);
     })
   })
+
 });
 
-routes.post('/api/answer', function(req, res) {
-  console.log("In post answer", req.body);
-  knex('answers').insert({answertext: req.body.text.text, fk_questionid: req.body.id, answerdate: req.body.time})
-  .then(function(resp) {
-    console.log("Should insert answer");
-  })
-});
-
-routes.get('/api/getAnswers/*', function(req, res) {
-  console.log("In getAnswers route", req.params[0]);
-  knex.select('*').from('answers').leftOuterJoin('users', 'answers.fk_answeredbyuserid', 'users.userid')
-  .then(function(data) {
-    res.send(data);
-  })
-  .catch(function(err) {
-    console.log("Something went wrong", err);
-  })
+//Deletes the session and redirects to login page.
+routes.get('/logout', function(req, res) {
+  console.log("REQ.seesion", req.session.accessToken)
+  req.session = null;
+  res.redirect('/login')
 })
+
+// routes.get('/login', function(req, res) {
+//   routes.use('/auth/makerpass')
+// })
 
 if (process.env.NODE_ENV !== 'test') {
 //The following GET request now works but only if the catch-all 
 //route is commented out as well as routes.use below the assetFolder
 // declaration. It works but I don't think it is correct
-  // routes.get('/', function(req, res){
-  //   if (!req.session.accessToken) {
-  //     res.redirect('/auth/makerpass')
-  //   } else {
-  //     console.log('MPAUTH', MP.authWithSession());
-  //     routes.use(express.static(assetFolder));
-  //     res.sendFile( assetFolder + '/index.html' )
-  //   }
-  // });
+  
   
   // The Catch-all Route
   // This is for supporting browser history pushstate.
@@ -183,6 +189,11 @@ if (process.env.NODE_ENV !== 'test') {
   // We're in development or production mode;
   // create and run a real server.
   var app = express();
+  // configure our server with all the middleware and and routing
+require('./config/middleware.js')(app, express);
+
+// export our app for testing and flexibility, required by index.js
+module.exports = app;
 
   // Parse incoming request bodies as JSON
   app.use( require('body-parser').json() );
