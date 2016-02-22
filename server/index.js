@@ -2,7 +2,7 @@ var express = require('express');
 var Path = require('path');
 var sass = require('node-sass-endpoint');
 var session = require('cookie-session');
-var MP = require('node-makerpass');
+// var MP = require('node-makerpass');
 
 var db  = require('./db');
 
@@ -25,73 +25,73 @@ var routes = express.Router();
 // This will give your middleware & endpoints access to req.session
 //
 
-routes.use(session({
-  name: 'underflow:session',
-  secret: process.env.SESSION_SECRET || 'development',
-  secure: (!! process.env.SESSION_SECRET),
-  signed: true
-}));
+// routes.use(session({
+//   name: 'underflow:session',
+//   secret: process.env.SESSION_SECRET || 'development',
+//   secure: (!! process.env.SESSION_SECRET),
+//   signed: true
+// }));
 
 //
 // Now set up passport.
 // Authenticate with MakerPass, and attach accessToken to session.
 //
-var passport = require('passport');
-var MakerpassStrategy = require('passport-makerpass').Strategy;
+// var passport = require('passport');
+// var MakerpassStrategy = require('passport-makerpass').Strategy;
 
-passport.use(new MakerpassStrategy({
-    clientID: process.env.MAKERPASS_CLIENT_ID,
-    clientSecret: process.env.MAKERPASS_CLIENT_SECRET,
-    callbackURL: "http://localhost:4000/auth/makerpass/callback",
-    passReqToCallback: true
-  },
-  function(req, accessToken, refreshToken, profile, done) {
-    // console.log('got req', req);
-    console.log("GOT TOKEN:", accessToken)
-    // console.log('got refreshToken', refreshToken);
-    console.log('got profile', profile);
-    // console.log('got done ', done);
-    // req.localStorage.setItem('session', accessToken);
-    req.session.accessToken  = accessToken;
-    req.session.refreshToken = refreshToken;
+// passport.use(new MakerpassStrategy({
+//     clientID: process.env.MAKERPASS_CLIENT_ID,
+//     clientSecret: process.env.MAKERPASS_CLIENT_SECRET,
+//     callbackURL: "http://localhost:4000/auth/makerpass/callback",
+//     passReqToCallback: true
+//   },
+//   function(req, accessToken, refreshToken, profile, done) {
+//     // console.log('got req', req);
+//     console.log("GOT TOKEN:", accessToken)
+//     // console.log('got refreshToken', refreshToken);
+//     console.log('got profile', profile);
+//     // console.log('got done ', done);
+//     // req.localStorage.setItem('session', accessToken);
+//     req.session.accessToken  = accessToken;
+//     req.session.refreshToken = refreshToken;
 
 
-    done(null, 1);  // Necessary only for serializeUser (see below)
-  }
-));
+//     done(null, 1);  // Necessary only for serializeUser (see below)
+//   }
+// ));
 
 //
 // Attach Passport to the app
 //
-routes.use(passport.initialize())
+// routes.use(passport.initialize())
 
 //
 // We don't need serializeUser/deserializeUser,
 // but passport will break if we don't write this.
 //
-passport.serializeUser(function(_, done) { done(null, 1) })
+// passport.serializeUser(function(_, done) { done(null, 1) })
 
 //
 // Direct your browser to this route to start the OAuth dance
 //
 
-routes.get('/auth/makerpass',
-  passport.authenticate('makerpass'));
+// routes.get('/auth/makerpass',
+//   passport.authenticate('makerpass'));
 
 //
 // During the OAuth dance, MakerPass will redirect your user to this route,
 // of which passport will mostly handle.
 //
 
-routes.get('/auth/makerpass/callback',
-  passport.authenticate('makerpass', { failureRedirect: '/#/login',
-  failFlash: true }),
-  function(req, res) {
-    console.log("WORKING")
-    // Successful authentication, do what you like at this point :)
-    routes.use(express.static(assetFolder));
-    res.redirect('/');
-  });
+// routes.get('/auth/makerpass/callback',
+//   passport.authenticate('makerpass', { failureRedirect: '/#/login',
+//   failFlash: true }),
+//   function(req, res) {
+//     console.log("WORKING")
+//     // Successful authentication, do what you like at this point :)
+//     routes.use(express.static(assetFolder));
+//     res.redirect('/');
+//   });
 
 //route to your index.html
 var assetFolder = Path.resolve(__dirname, '../client/');
@@ -161,10 +161,6 @@ routes.get('/logout', function(req, res) {
   req.session = null;
   res.redirect('/login')
 })
-
-// routes.get('/login', function(req, res) {
-//   routes.use('/auth/makerpass')
-// })
 
 if (process.env.NODE_ENV !== 'test') {
 //The following GET request now works but only if the catch-all 
