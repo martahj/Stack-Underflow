@@ -4,7 +4,8 @@ angular.module('myApp', [
     'myApp.login',
     'ui.router',
     'ngCookies',
-    'infinite-scroll'
+    'infinite-scroll',
+    'angularMoment'
   ])
 
     .config(function($stateProvider, $urlRouterProvider, $httpProvider) {
@@ -82,7 +83,8 @@ angular.module('myApp', [
         }
     };
 })
-.run(function ($rootScope, $state, $window) {
+.run(function ($rootScope, $state, $window, amMoment) {
+  // amMoment.changeLocale('de');
 
   // Everything is running, listening for change state and if the next state requires authentication.
 $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){

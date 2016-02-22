@@ -7,7 +7,7 @@
     <h4 class="questionTitle">{{ question.questiontitle }}</h4>
     <p>{{ question.questiontext }}</p>
     <div>
-      <span>Asked by {{ question.user }} at {{ question.questiondate }}</span>
+      <span>Asked by {{ question.user }} at </span><span am-time-ago="question.questiondate"></span>
     </div>
   </div>
 

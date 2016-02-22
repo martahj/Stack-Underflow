@@ -1,0 +1,294 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+/*
+  END CSS RESET
+*/
+
+
+
+
+/* 
+  OVERALL FRAME 
+*/
+
+.app {
+	margin: 50px 70px 0 50px;
+	padding: 10px 10px 10px 10px;
+}
+
+/*
+  END OVERALL FRAME
+*/
+
+
+
+
+/*
+  BASELINE STYLES
+*/
+
+body {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	background-color: #E8E8E8;
+	line-height: 1.5;
+}
+
+.app {
+	background-color: white;
+}
+
+.container {
+	clear: both;
+	border: 10px solid #E8E8E8;
+	padding: 10px;
+}
+
+h1 {
+	font-size: 20px;
+}
+
+/*
+  END BASELINE STYLES
+*/
+
+
+
+/*
+  NAV BAR
+*/
+
+.nav {
+	font-size: 24px;
+	height: 70px;
+}
+
+.navChoice {
+	float: left;
+	height: 35px;
+	margin: 0 10px 0 0;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:visited{
+	color: black;
+}
+
+.logo {
+	font-weight: bold;
+	font-size: 28px;
+	margin: 0 440px 0 0;
+}
+
+.icon {
+	height: 50px;
+	vertical-align: text-top;
+}
+
+.btn {
+	background-color: #FEE7D6;
+	color: white;
+	text-align: center;
+	border-radius: 3px;
+	height: 35px;
+	margin-top: 5px;
+}
+
+.submit {
+	width: 250px;
+}
+
+.logout {
+	width: 130px;
+}
+
+/*
+  END NAV BAR
+*/
+
+
+
+
+
+/*//MAIN PAGE*/
+
+/*
+  MAIN PAGE - OVERALL FRAME
+*/
+
+
+/*
+  END FRAME
+*/
+
+.question-previews {
+	margin: 30px 0 0 0;
+}
+
+
+/* 
+  MAIN PAGE - QUESTIONS
+*/
+
+.question-preview {
+	border-bottom: 3px solid #E8E8E8;
+	padding: 15px 3px 3px 3px;
+	margin: 0px 200px;
+}
+
+.qTitle {
+	font-weight: bold;
+}
+
+.qPreview {
+	margin: 0 0 0 20px;
+}
+
+h6 {
+	margin: 0px 10px 30px 10px;
+}
+
+p {
+	margin: 0 30px 10px 30px;
+}
+
+.main-date {
+	float: right;
+}
+
+/*
+  END QUESTION
+*/
+
+/*//END MAIN PAGE*/
+
+
+
+
+
+
+
+
+
+
+/*//SUBMIT A QUESTION*/
+
+label {
+	font-weight: bold;
+}
+
+/*//END SUBMIT A QUESTION*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*//QUESTION PAGE*/
+
+/*
+  QUESTION PAGE - OVERALL FRAME
+*/
+
+.questionsAndAnswers {
+	margin: 20px 0 0 0;
+}
+
+/*
+  END OVERALL FRAME
+*/
+
+
+
+
+/*
+  QUESTION PAGE - QUESTION
+*/
+
+.questionTitle{
+	font-weight: bold;
+}
+
+.originalQuestion {
+	border-bottom: 1px solid #E8E8E8;
+	padding: 3px 3px 3px 3px;
+}
+
+/*
+  END QUESTION
+*/
+
+
+
+
+/*
+  QUESTION PAGE - ANSWERS
+*/
+
+.answer{
+}
+
+/*
+  END ANSWERS
+*/
+
+/*//END QUESTION PAGE*/
+
