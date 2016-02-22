@@ -1,5 +1,15 @@
-<div>
+<!-- <div>
   You are not logged in. Please log in to continue.
   <a href="/auth/makerpass">Sign in with Makerpass</a>
   <button ng-click="authoreyes()">Login</button>
+</div> -->
+
+<div id='signin'>
+  <h1>signin</h1>
+  <form name="signinForm" ng-submit='signin()'>
+    <input type='text'ng-model='user.username'>
+    <input type="password" ng-model='user.password'>
+    <button>signin</button>
+  </form>
+  <a href="#/signup">Don't have an account? <strong>Signup</strong> ...</a>
 </div>
