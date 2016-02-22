@@ -1,73 +1,69 @@
 'use strict';
-//This is controller for the main page
-//It corresponds to the view main.html
-//The <suf-question-preview> tag in the view refers to the directive questionPreview (suf = stack under flow)
+// This is controller for the main page
+// It corresponds to the view main.html
+// The <suf-question-preview> tag in the view refers to the directive questionPreview (suf = stack under flow): views/directiveViews/questionPreview.html
 
 angular.module('myApp')
-.controller('MainCtrl', ['$scope', '$window', '$state', 'GetQuestions', function($scope, $window, $state, GetQuestions) {
+.controller('MainCtrl', ['$scope', '$state', '$cookieStore','GetQuestions', function($scope, $state, $cookieStore, GetQuestions) {
+  
 
-    /* TOOLS FOR GETTING QUESTIONS FROM THE SERVER */
 
-    //This object holds all the questions, irrespective of whether they have appeared on the page or not
-     $scope.allQuestions = {};
+    ////////// TOOLS FOR GETTING QUESTIONS FROM THE SERVER //////////
 
-     //This function (called during init) populates $scope.allQuestions with the questions stored in the db
+
+     // This array holds the questions that have loaded on the page
+     $scope.questions = [];
+
+     // Populates $scope.allQuestions with the questions stored in the db
      $scope.getQuests = function() {
-        console.log('in getQuests');
+      // Send get req to service for all questions: src/services/getQuestions
        return GetQuestions.getQuestions()
         .then(function(questions) {
-          $scope.allQuestions = questions.data;
-          console.log("addingquestions to $scope", $scope.allQuestions)
+          // Populate object with questions retrieved from db
+          $scope.questions = questions.data.questions.slice(0, questions.data.questions.length, 1);
         })
         .catch(function(err) {
           console.log(err);
         })
      };
 
-     $scope.idSelectedQuestion;
+     // Bind id from selected question to cookies
      $scope.setSelected = function (idSelectedQuestion) {
-      $scope.idSelectedQuestion = idSelectedQuestion;
-      $state.go('question', {questionID: $scope.idSelectedQuestion});
+      $cookieStore.put('qid', idSelectedQuestion);
+      // Change to single question page
+      $state.go('question'); // states described in /views/app.js
      };
 
-     /* END OF TOOLS FOR GETTING QUESTIONS FROM SERVER */
+     ////////// END OF TOOLS FOR GETTING QUESTIONS FROM SERVER //////////
 
 
 
+     ////////// TOOLS FOR INFINITE SCROLL //////////
 
-     /* TOOLS FOR INFINITE SCROLL */
+     // Number of questions to load initially
+     $scope.numberToDisplay = 14;
 
-     //This array holds the questions that have loaded on the page
-     $scope.questions = [];
-     
-     //Number of questions to load initially
-     //If this is doesn't cover the whole page, infinite scroll won't work
-     var originalLoad = 14;
-
-     //Number of additional questions to load at once
+     // Number of additional questions to load at once
      var numberOfQuestionsToLoad = 3;
 
-     //Add more questions to $scope.questions as the user scrolls down
+     // Add more questions to $scope.questions as the user scrolls down
      $scope.loadMore = function() {
-      // KK: always getting an error Cannot read property 'length' of undefined => $scope.allQuestions is empty
-      // But, infinite scroll is still working
-       if ($scope.questions.length < $scope.allQuestions.questions.length) {
-         $scope.questions = $scope.allQuestions.questions.slice(0, $scope.questions.length + 3);
-       }
+      if ($scope.numberToDisplay + 3 < $scope.questions.length) {
+          $scope.numberToDisplay += 3;
+      } else {
+          $scope.numberToDisplay = $scope.questions.length;
+      }
      };
 
-     /* END OF TOOLS FOR INFINITE SCROLL */
-
+     ////////// END OF TOOLS FOR INFINITE SCROLL //////////
 
 
  
      $scope.init = function() {
        $scope.getQuests()
-         .then( function() {
-            $scope.questions = $scope.allQuestions.questions.slice(0, originalLoad,  1);
-         }); 
      };
 
+     // Initializes page with questions every time main.js is hit
      $scope.init();
   
     }]); 

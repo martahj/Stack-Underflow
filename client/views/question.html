@@ -1,5 +1,7 @@
 
 <div class="questionsAndAnswers">
+  On question page!
+  <!-- Controlled from src/services/question.js -->
 
   <div class="originalQuestion" ng-model="question">
     <h4 class="questionTitle">{{ question.questiontitle }}</h4>
@@ -13,6 +15,7 @@
   <div class="answers-bucket">
 
    <div class="all-answers">
+     <div class="question" ng-repeat="answer in answers" ng-model="answer">
      <div class="answer" ng-repeat="answer in answers" ng-model="answer">
        <suf-answer info="answer"></suf-answer>
      </div>
@@ -24,12 +27,12 @@
       <label>
         Your answer:
         <br>
+        <!-- suf-question-or-answer (/views/directiveViews/qOrA) is what Tim needs to build -->
         <suf-question-or-answer></suf-question-or-answer>
       </label>
-      <!-- Get input text from form and questionid from question to insert into DB -->
+      <!-- Get input text from form and questionid from question to insert into DB: src/question.js -->
       <button ng-click="submitAnswer(userInput, question.questionid)">Submit Answer</button>
     </form>
 
   </div>
 </div>
-

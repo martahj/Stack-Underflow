@@ -97,23 +97,29 @@ var assetFolder = Path.resolve(__dirname, '../client/');
   routes.use(express.static(assetFolder));
 
 
-// Route endpoints to listen for frontend requests
-routes.get('/api/tags-example', function(req, res) {
-  res.send(['node', 'express', 'angular'])
-});
 
-// query DB for all questions, return in reverse order (newest first)
+////////// DATABASE ROUTES //////////
+
+// Get all questions from DB
 routes.get('/api/questions', function(req, res) {
-  console.log("getting all questions");
+  console.log("Getting all questions");
+  // Order in reverse (newest first)
   knex('questions').select().orderBy('questiondate', 'desc')
   .then(function(questions) {
+    // Pass data back to controller /src/main.js
     res.send({questions: questions});
+  })
+  .catch(function(err) {
+    console.log("Something went wrong", err);
   })
 });
 
+// Get single question from DB
 routes.get('/api/questions/*', function(req, res) {
+  console.log("Let's take a closer look at question ", req.params[0]);
   knex('questions').where({questionid: req.params[0]})
   .then(function(singleQuest) {
+    // Send back question data to controller /src/question.js
     res.send({singleQuestion: singleQuest});
   })
   .catch(function(err) {
@@ -121,18 +127,18 @@ routes.get('/api/questions/*', function(req, res) {
   })
 });
 
-// Listen for post question req, send question information to the database, redirect to that question page
+// Post a question into DB
 routes.post('/api/questions', function(req, res) {
-  console.log("In post in index.js", req.body.title);
+  // Get data from req body
+  console.log("You are asking a question. Good for you.");
+  // Insert that data into DB
   knex('questions').insert({questiontitle: req.body.title, questiontext: req.body.text, questiondate: req.body.time})
-  .then(function(resp) {
     // query db to get questionid of the question we just asked with date
+  .then(function(resp) {
     knex('questions').where({questiondate: req.body.time}).select('questionid')
-    // async, returns object within array
-    .then(function(id) { var quest = id[0].questionid; return quest; })
+    // After query DB, take data and send back to controller /src/submit.js
     .then(function(questid) {
-      console.log("we are getting questid ", questid);
-      res.send({questid: questid});
+      res.send({questid: questid[0].questionid});
     })
     .catch(function(err) {
       console.log(err);
@@ -140,24 +146,37 @@ routes.post('/api/questions', function(req, res) {
   })
 });
 
+// Post an answer into DB
 routes.post('/api/answer', function(req, res) {
-  console.log("In post answer", req.body);
-  knex('answers').insert({answertext: req.body.text.text, fk_questionid: req.body.id, answerdate: req.body.time})
+  console.log("You are developing others. Way to go!");
+  knex('answers').insert({answertext: req.body.text, fk_questionid: req.body.id, answerdate: req.body.time})
   .then(function(resp) {
+    // After query to DB, end response to fufill promise
     console.log("Should insert answer");
+    res.end();
   })
 });
 
+// Get answers from DB
 routes.get('/api/getAnswers/*', function(req, res) {
-  console.log("In getAnswers route", req.params[0]);
-  knex.select('*').from('answers').leftOuterJoin('users', 'answers.fk_answeredbyuserid', 'users.userid')
+  // Query DB for answers
+  console.log("Getting answers to increase your knowledge");
+  // First do a left outer join to get answers/users that match on userid
+  var subquery = knex.select('*').from('answers').leftOuterJoin('users', 'answers.fk_answeredbyuserid', 'users.userid');
+  // Then, query answers table on condition the questionid in answer matches parameter, and the subquery
+  knex('answers').where({fk_questionid: req.params[0]}, subquery)
   .then(function(data) {
+    // Send data back to controller: /src/services/question.js
     res.send(data);
   })
   .catch(function(err) {
     console.log("Something went wrong", err);
   })
 })
+
+////////// END DATABASE ROUTES //////////
+
+
 
 if (process.env.NODE_ENV !== 'test') {
 //The following GET request now works but only if the catch-all 
