@@ -13,6 +13,7 @@
     "cookie-session": "^1.2.0",
     "es6-object-assign": "^1.0.1",
     "express": "^4.13.1",
+    "jwt-simple": "^0.4.1",
     "knex": "^0.10.0",
     "moment": "^2.11.2",
     "morgan": "^1.6.1",
