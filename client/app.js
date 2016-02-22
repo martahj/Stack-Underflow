@@ -5,7 +5,8 @@ angular.module('myApp', [
     'ui.router',
     'ngCookies',
     'infinite-scroll',
-    'angularMoment'
+    'angularMoment',
+    'textAngular'
   ])
 
     .config(function($stateProvider, $urlRouterProvider, $httpProvider) {
@@ -86,11 +87,11 @@ angular.module('myApp', [
    $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
 //   //this works but needs to check if the user is authenitcated along with if the next route
 //   //requires authentication.
-      if (toState.authenticate && Auth.isAuth() === false){
-        // User isn’t authenticated, redirect to login
-        $state.transitionTo("login");
-        event.preventDefault(); 
-      }
+      // if (toState.authenticate && Auth.isAuth() === false){
+      //   // User isn’t authenticated, redirect to login
+      //   $state.transitionTo("login");
+      //   event.preventDefault(); 
+      // }
     });
 
 });

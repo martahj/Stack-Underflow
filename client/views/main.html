@@ -1,15 +1,14 @@
 
 <div div ng-controller="MainCtrl">
-  <h1>On main page!</h1>
   <!-- controlled from src/main.js -->
-</div>
 
-<h1>Recent Questions</h1>
-<input ng-model="searchQs" placeholder="filter results">
-<div class="question-previews" infinite-scroll="loadMore()" infinite-scroll-distance="0">
-  <div class="question-preview" ng-repeat="question in questionsFilter = (questions | filter:searchQs | limitTo:numberToDisplay)" ng-model="question" ng-click="setSelected(question.questionid)">
+  <h1>Recent Questions</h1>
+  <input ng-model="searchQs" placeholder="filter results">
+  <div class="question-previews" infinite-scroll="loadMore()" infinite-scroll-distance="0">
+    <div class="question-preview" ng-repeat="question in questionsFilter = (questions | filter:searchQs | limitTo:numberToDisplay)" ng-model="question" ng-click="setSelected(question.questionid)">
   <!-- User can click individual question to populate page with question/answers, takes id from question object: src/main.js -->
- <suf-question-preview info="question"></suf-question-preview>
+    <suf-question-preview info="question"></suf-question-preview>
+    </div>
 
   </div>
 </div>

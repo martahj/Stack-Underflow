@@ -123,11 +123,9 @@ routes.get('/api/questions/*', function(req, res) {
   .then(function(singleQuest) {
     // Send back question data to controller /src/question.js
   knex('questions').where({questionid: req.params[0]})
-  .then(function(singleQuest) {
-    res.send({singleQuestion: singleQuest});
-  })
-  .catch(function(err) {
-    console.log("Something went wrong", err);
+    .then(function(singleQuest) {
+      res.send({singleQuestion: singleQuest});
+    })
   })
 });
 
@@ -143,24 +141,9 @@ routes.post('/api/questions', function(req, res) {
     // After query DB, take data and send back to controller /src/submit.js
     .then(function(questid) {
       res.send({questid: questid[0].questionid});
-      knex('questions').insert({questiontitle: req.body.title, questiontext: req.body.text})
-        .then(function(resp) {
-    // query db to get questionid of the question we just asked
-        knex('questions').where({questiontext: req.body.text}).select('questionid')
-    // async, returns object within array
-        .then(function(id) { var quest = id[0].questionid; return quest; })
-        .then(function(questid) {
-        console.log("we are getting questid ", questid);
-      // routes.get('/api/questions/' + questid, function(req, res) {
-      //   console.log('we are in questionid getting');
-         res.send({questid: questid});
-      // res.redirect('/#/main');
-      // })
-    })
-    .catch(function(err) {
-      console.log(err);
     })
   })
+});
 
 // Post an answer into DB
 routes.post('/api/answer', function(req, res) {

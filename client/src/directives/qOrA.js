@@ -4,8 +4,12 @@
 angular.module('myApp')
   .directive('sufQuestionOrAnswer', function() {
 
+   //  this.getHtmlContent: function() {
+  	// 		console.log('html', htmlcontent);
+  	// }
+
   	return {
   		restrict: 'E',
-  		templateUrl: '../views/directiveViews/qOrA.html'
+  		templateUrl: '../views/directiveViews/qOrA.html',
   	}
   });
