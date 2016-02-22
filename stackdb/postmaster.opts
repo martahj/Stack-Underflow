@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 /usr/local/Cellar/postgresql/9.5.1/bin/postgres "-D" "stackdb/"
+=======
+/usr/local/Cellar/postgresql/9.5.0/bin/postgres "-D" "stackdb/"
+>>>>>>> a6b5f9a56996e9a17cd95b88150fc878b7feb066
