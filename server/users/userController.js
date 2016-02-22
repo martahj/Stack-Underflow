@@ -12,6 +12,19 @@ module.exports = {
     var username = req.body.username,
         password = req.body.password;
 
+    knex('users').where({username: req.body.username, password: req.body.password})
+    .then(function(data) {
+      console.log('res userctrl', data)
+      console.log('res.length', data[0])
+      if (data[0] === undefined) {
+      res.send({error: 'Username or password is invalid.'})
+      } else {
+        var token = jwt.encode(username, 'secret');
+          // console.log("TOKEN", token, "user:", user)
+          res.send({token: token});
+      }
+    })
+
     
 
     // var findUser = Q.nbind(User.findOne, User);
@@ -59,8 +72,6 @@ module.exports = {
           .then(function (user) {
           // create token to send back for auth
           var token = jwt.encode(username, 'secret');
-          console.log("TOKEN", token, "user:", user)
-          console.log('resss', res.send)
           res.send({token: token});
         })
         .catch(function (error) {

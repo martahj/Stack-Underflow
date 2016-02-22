@@ -3,24 +3,26 @@
 //this calls the factory function Login.verify below 
 //then sets the result in localStorage
 angular.module('myApp.auth', [])
-  .controller('AuthController', function ($scope, $window, Auth) {
+  .controller('AuthController', function ($scope, $window, $state, Auth) {
     $scope.signin = function () {
     Auth.signin($scope.user)
       .then(function (token) {
+        // console.log('tokennnn', token)
         $window.localStorage.setItem('com.underflow', token);
-        $location.path('/');
+        $state.go('home')
       })
       .catch(function (error) {
-        console.error(error);
+        console.error("ERROR", error);
+        $state.reload();
       });
   };
 
   $scope.signup = function () {
     Auth.signup($scope.user)
       .then(function (token) {
-        console.log("TOKKKKKEN", token)
-        // $window.localStorage.setItem('com.underflow', token);
+        $window.localStorage.setItem('com.underflow', token);
         // $location.path('/');
+        $state.go('home')
       })
       .catch(function (error) {
         console.error(error);
@@ -37,6 +39,10 @@ angular.module('myApp.auth', [])
       data: user
     })
     .then(function (resp) {
+      if(resp.data.error) {
+        alert(resp.data.error)
+        throw new Error(resp.data.error)
+      }
       return resp.data.token;
     });
   };
@@ -58,7 +64,7 @@ angular.module('myApp.auth', [])
 
   var signout = function () {
     $window.localStorage.removeItem('com.underflow');
-    $location.path('/signin');
+    $state.go('login');
   };
 
 

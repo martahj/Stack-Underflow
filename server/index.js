@@ -104,13 +104,6 @@ routes.get('/api/tags-example', function(req, res) {
 });
 
 routes.get('/api/questions', function(req, res) {
-    console.log("REQ.seesion", req.session.accessToken)
-    if (!req.session.accessToken) {
-      // throw new Error("NEIN")
-      // console.log('res.redircect', res)
-      // res.redirect('/auth/makerpass')
-      // res.send({redirect: '/auth/makerpass'});
-    }
   console.log("getting all questions");
   knex('questions').select()
   .then(function(questions) {
